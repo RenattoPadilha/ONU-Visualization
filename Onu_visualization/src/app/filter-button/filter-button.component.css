@@ -1,0 +1,36 @@
+.bar-text {
+  display: inline;
+  color: white;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
+}
+
+.bar-button:hover .bar-text {
+  text-decoration: underline;
+}
+
+.bar-button {
+  position: relative;
+  background-color: #5b92e5;
+  display: inline-flex;
+  cursor: pointer;
+  border: solid white;
+  border-width: 0px 2px;
+}
+
+.filter-button:hover {
+  background-color: #166ae7;
+}
+
+.bar-icon {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  color: white;
+  transition: transform 0.5s;
+}
