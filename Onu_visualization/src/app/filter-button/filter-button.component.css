@@ -20,6 +20,7 @@
   cursor: pointer;
   border: solid white;
   border-width: 0px 2px;
+  box-sizing: border-box;
 }
 
 .filter-button:hover {
