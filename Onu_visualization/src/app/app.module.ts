@@ -6,12 +6,16 @@ import { AppComponent } from './app.component';
 import { FilterButtonComponent } from './filter-button/filter-button.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ScaleComponent } from './scale/scale.component';
+import { NavbarComponent} from './navbar/navbar.component';
+import { SpeechBarComponent } from './speech-bar/speech-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FilterButtonComponent,
-    ScaleComponent
+    ScaleComponent,
+    NavbarComponent,
+    SpeechBarComponent
   ],
   imports: [
     BrowserModule,
