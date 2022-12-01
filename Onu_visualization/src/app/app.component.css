@@ -1,18 +1,20 @@
 .grid-parent{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 4fr 1fr;
   grid-template-rows: 1fr 11.5fr;
   grid-template-areas: 
-  "navbar navbar navbar sidebar"
-  "heatmap heatmap heatmap sidebar"
-  "heatmap heatmap heatmap sidebar"
-  "heatmap heatmap heatmap sidebar";
+  "navbar sidebar"
+  "heatmap sidebar";
   width: 100vw;
   height: 100vh;
 }
 
 .navbar{
   grid-area: navbar;
+}
+
+.heatmap{
+  grid-area: heatmap;
 }
 
 .sidebar{

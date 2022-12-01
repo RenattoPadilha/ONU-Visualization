@@ -9,7 +9,7 @@ import { faCircleChevronDown } from '@fortawesome/free-solid-svg-icons';
 export class FilterButtonComponent implements OnInit {
   //div size
   width = '20vw';
-  height = '8.5vh';
+  height = '8vh';
   //icon position
   icon = faCircleChevronDown;
   iconPosition = 'translateY(-50%) rotate(0deg)';

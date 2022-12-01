@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ScaleComponent } from './scale/scale.component';
 import { NavbarComponent} from './navbar/navbar.component';
 import { SpeechBarComponent } from './speech-bar/speech-bar.component';
+import { HeatmapComponent } from './heatmap/heatmap.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { SpeechBarComponent } from './speech-bar/speech-bar.component';
     FilterButtonComponent,
     ScaleComponent,
     NavbarComponent,
-    SpeechBarComponent
+    SpeechBarComponent,
+    HeatmapComponent
   ],
   imports: [
     BrowserModule,

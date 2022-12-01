@@ -1,7 +1,7 @@
 .navbar{
   background-color: #5b92e5;
-  height: 8.5vh;
-  width: 75vw;
+  height: 8vh;
+  width: 80vw;
   display: flex;
   text-align: center;
 }
@@ -10,18 +10,18 @@
   display: block;
   color: white;
   margin: 0;
-  width: 25vw;
+  width: 30vw;
   margin-right: 5vw;
-  line-height: 8.5vh;
+  line-height: 8vh;
 }
 
 .onu-img{
   width: 8.5vw;
-  height: 8.5vh;
+  height: 8vh;
 }
 
 .scale-div{
   position: relative;
   width: 16.5vw;
-  height: 8.5vh;
+  height: 8vh;
 }
