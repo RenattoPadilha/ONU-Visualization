@@ -9,6 +9,7 @@ import { ScaleComponent } from './scale/scale.component';
 import { NavbarComponent} from './navbar/navbar.component';
 import { SpeechBarComponent } from './speech-bar/speech-bar.component';
 import { HeatmapComponent } from './heatmap/heatmap.component';
+import { FilterWindowComponent } from './filter-window/filter-window.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { HeatmapComponent } from './heatmap/heatmap.component';
     ScaleComponent,
     NavbarComponent,
     SpeechBarComponent,
-    HeatmapComponent
+    HeatmapComponent,
+    FilterWindowComponent
   ],
   imports: [
     BrowserModule,

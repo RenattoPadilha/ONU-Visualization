@@ -12,22 +12,9 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }  
   
-  
-  /*
-
-  * Add Onu Image
-  * Add Link to ONU Website
-  * Add Title
-  * Add Scale
-  * Add Filter-button
-  TODO Definir Tamanhos
-
-  */
-
-  /*
-  IMG - 7.5 vw
-  H1 - 32.5 vw
-  SCALE - 20 vw
-  Filters - 20 vw
-  */
+  isFilterWindowOpen = false; 
+ 
+  attWindowState (actualState: boolean){
+    this.isFilterWindowOpen = actualState;
+  }
 }

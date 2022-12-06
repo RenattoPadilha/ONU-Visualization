@@ -6,6 +6,7 @@
   <div class="scale-div">
     <app-scale></app-scale>
   </div>  
-  <app-filter-button></app-filter-button>
+  <app-filter-button (isFilterWindowOpen) = "attWindowState($event)"></app-filter-button>
+  <app-filter-window [isFilterWindowOpen] = "isFilterWindowOpen"></app-filter-window>
 </div>
 

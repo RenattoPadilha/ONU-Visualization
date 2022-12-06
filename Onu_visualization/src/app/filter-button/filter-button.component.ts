@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { faCircleChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -7,14 +7,15 @@ import { faCircleChevronDown } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./filter-button.component.css'],
 })
 export class FilterButtonComponent implements OnInit {
+  //filter window variable
+  @Output() isFilterWindowOpen = new EventEmitter<boolean>();
   //div size
   width = '20vw';
   height = '8vh';
   //icon position
   icon = faCircleChevronDown;
-  iconPosition = 'translateY(-50%) rotate(0deg)';
-  //filter window variable
-  isFilterOpen = false;
+  iconPosition = 'translateY(-50%) rotate(-180deg)';
+  isWindowOpen = false;
 
   constructor() {}
 
@@ -22,15 +23,12 @@ export class FilterButtonComponent implements OnInit {
 
   //Change icon position and open window
   buttonClick() {
-    if (this.isFilterOpen) {
-      //Close Filter Window
-      this.isFilterOpen = false;
+    this.isWindowOpen = !this.isWindowOpen;
+    this.isFilterWindowOpen.emit(this.isWindowOpen);
+    if (this.isWindowOpen) {
       this.iconPosition = 'translateY(-50%) rotate(0deg)';
     } else {
-      //Open Filter Window
-      this.isFilterOpen = true;
       this.iconPosition = 'translateY(-50%) rotate(-180deg)';
     }
-    console.log(this.iconPosition);
   }
 }
