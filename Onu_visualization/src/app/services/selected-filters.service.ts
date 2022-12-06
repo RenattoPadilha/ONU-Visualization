@@ -139,16 +139,51 @@ export class SelectedFiltersService {
     ],
   ];
 
-  private actualCategories = this.allCategory;
-  private actualYearRange = [2000, 2010];
+  private _categories : Array<string>;
+  private _selectedType: string;
+  private _selectedYears : Array<number>;
+  private _selectedWords : any;
 
-  constructor() { }
-
-  getCategories(){
-    return this.actualCategories;
+  constructor() { 
+    this._categories = this.allCategory;
+    this._selectedType = "Occurrences";
+    this._selectedYears = [2000,2022];
+    this._selectedWords = ["Ukraine", "Donetsk"];
   }
 
-  getYearRange(){
-    return this.actualYearRange;
+  ngOnInit(): void {
   }
+  
+  get categories() : string[] {
+    return this._categories;
+  }
+
+  get selectedType() : string {
+    return this._selectedType;
+  }
+
+  get selectedYears() : number[] {
+    return this._selectedYears;
+  }
+  
+  get selectedWords() : any {
+    return this._selectedWords;
+  }
+
+  set categories(newValue : string[]) {
+    this._categories = newValue;
+  }
+  
+  set selectedType(newValue : string){
+    this._selectedType = newValue;
+  }
+
+  set selectedYears(newValue : number[]){
+    this._selectedYears = newValue;
+  }
+  
+  set selectedWords(newValue : any){
+    this._selectedWords = newValue;;
+  }
+
 }
