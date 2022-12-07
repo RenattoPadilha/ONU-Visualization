@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CategoriesControlService } from './categories-control.service';
 import { SelectedFiltersService } from './selected-filters.service';
 
 @Injectable({
@@ -6,22 +7,48 @@ import { SelectedFiltersService } from './selected-filters.service';
 })
 export class DrawHeatmapService {
 
-  constructor (private SelectedFiltersService: SelectedFiltersService) { 
-    this.categoryHeight = 0;
-    this.categoryWidth = 0;
-    this.yearWidth = 0;
-    this.timelineHigherPoint = 0;
+  constructor (private SelectedFiltersService: SelectedFiltersService, private CategoriesControlService: CategoriesControlService) { 
+    this._categoryHeight = 0;
+    this._categoryWidth = 0;
+    this._yearWidth = 0;
+    this._timelineHigherPoint = 0;
     this._isDrawedBefore = false;
   }
 
   private _canvas: any;
   private _ctx: any;
-  private categoryHeight: number;
-  private categoryWidth: number;
-  private yearWidth: number;
-  private timelineHigherPoint: number;
+  private _categoryHeight: number;
+  private _categoryWidth: number;
+  private _yearWidth: number;
+  private _timelineHigherPoint: number;
   private _isDrawedBefore: boolean;
   
+  
+  get categoryHeight() : number {
+    return  this._categoryHeight;
+  }
+  
+  
+  get categoryWidth() : number {
+    return this._categoryWidth;
+  }
+  
+  
+  get yearWidth() : number {
+    return this._yearWidth;
+  }
+  
+  
+  get timelineHigherPoint() : number {
+    return this._timelineHigherPoint;
+  }
+  
+  
+  get isDrawedBefore() : boolean {
+    return this._isDrawedBefore;
+  }
+  
+
   set canvas(newValue : any) {
     this._canvas = newValue;
   }
@@ -45,23 +72,23 @@ export class DrawHeatmapService {
   //Draw Categories on Canvas
   drawCategory() {
     let canvasHeight = this._canvas.height;
-    let actualCategories = this.SelectedFiltersService.categories;
+    let actualCategories = this.CategoriesControlService.categories;
 
     //drawing categories rectangles
     this._ctx.fillStyle = '#5b92e5';
-    this._ctx.rect(0, 0, this.categoryWidth, canvasHeight);
+    this._ctx.rect(0, 0, this._categoryWidth, canvasHeight);
     this._ctx.fill();
 
     //drawing categories lines
     this._ctx.beginPath();
     this._ctx.lineWidth = '1';
     this._ctx.strokeStyle = 'white';
-    this._ctx.moveTo(this.categoryWidth, 0);
-    this._ctx.lineTo(this.categoryWidth, canvasHeight);
+    this._ctx.moveTo(this._categoryWidth, 0);
+    this._ctx.lineTo(this._categoryWidth, canvasHeight);
 
     for (let index = 0; index < actualCategories.length + 1; index++) {
-      this._ctx.moveTo(0, this.categoryHeight * index);
-      this._ctx.lineTo(this.categoryWidth, this.categoryHeight * index);
+      this._ctx.moveTo(0, this._categoryHeight * index);
+      this._ctx.lineTo(this._categoryWidth, this._categoryHeight * index);
     }
     this._ctx.stroke();
 
@@ -74,15 +101,15 @@ export class DrawHeatmapService {
       this._ctx.font = '1.5rem sans-serif';
       this._ctx.fillText(
         categoryTitle,
-        this.categoryWidth / 2,
-        this.categoryHeight * index + this.categoryHeight / 2
+        this._categoryWidth / 2,
+        this._categoryHeight * index + this._categoryHeight / 2
       );
 
       this._ctx.font = '1rem sans-serif';
       this._ctx.fillText(
         'Expandir',
-        this.categoryWidth / 2,
-        this.categoryHeight * index + (this.categoryHeight * 3) / 4
+        this._categoryWidth / 2,
+        this._categoryHeight * index + (this._categoryHeight * 3) / 4
       );
     }
   }
@@ -97,28 +124,28 @@ export class DrawHeatmapService {
     let lowerYear = yearRange[0];
     let higherYear = yearRange[1];
 
-    this.timelineHigherPoint = canvasHeight - this.categoryHeight;
+    this._timelineHigherPoint = canvasHeight - this._categoryHeight;
 
     //fill background
     this._ctx.fillStyle = '#5b92e5';
-    this._ctx.rect(0, this.timelineHigherPoint, canvasWidth, canvasHeight);
+    this._ctx.rect(0, this._timelineHigherPoint, canvasWidth, canvasHeight);
     this._ctx.fill();
 
     //drawing year lines
     this._ctx.beginPath();
     this._ctx.lineWidth = '1';
     this._ctx.strokeStyle = 'white';
-    this._ctx.moveTo(this.categoryWidth, this.timelineHigherPoint);
-    this._ctx.lineTo(canvasWidth, this.timelineHigherPoint);
+    this._ctx.moveTo(this._categoryWidth, this._timelineHigherPoint);
+    this._ctx.lineTo(canvasWidth, this._timelineHigherPoint);
     this._ctx.stroke();
 
     for (let index = 0; index < qtdYears; index++) {
       this._ctx.moveTo(
-        this.categoryWidth + this.yearWidth * index,
-        this.timelineHigherPoint
+        this._categoryWidth + this._yearWidth * index,
+        this._timelineHigherPoint
       );
       this._ctx.lineTo(
-        this.categoryWidth + this.yearWidth * index,
+        this._categoryWidth + this._yearWidth * index,
         canvasHeight
       );
     }
@@ -129,16 +156,16 @@ export class DrawHeatmapService {
     for (let index = 0; lowerYear <= higherYear; index++) {
       this._ctx.save();
       this._ctx.translate(
-        this.categoryWidth + this.yearWidth * index + this.yearWidth / 2,
-        this.timelineHigherPoint + this.categoryHeight / 2
+        this._categoryWidth + this._yearWidth * index + this._yearWidth / 2,
+        this._timelineHigherPoint + this._categoryHeight / 2
       );
-      if (this.yearWidth > 55) {
+      if (this._yearWidth > 55) {
         this._ctx.font = '1.25rem sans-serif';
         this._ctx.textAlign = 'center';
-      } else if (this.yearWidth > 45) {
+      } else if (this._yearWidth > 45) {
         this._ctx.font = '1rem sans-serif';
         this._ctx.textAlign = 'center';
-      } else if (this.yearWidth > 30){
+      } else if (this._yearWidth > 30){
         this._ctx.rotate(-Math.PI / 2)
         this._ctx.textBaseline = 'middle';
         this._ctx.font = '1.25rem sans-serif';
@@ -160,7 +187,7 @@ export class DrawHeatmapService {
     let canvasHeight = this._canvas.height;
 
     //ver quantos quadrados tem
-    let actualCategories = this.SelectedFiltersService.categories;
+    let actualCategories = this.CategoriesControlService.categories;
     let yearRange = this.SelectedFiltersService.selectedYears;
     let qtdYears = yearRange[1] - yearRange[0] + 1;
 
@@ -171,16 +198,16 @@ export class DrawHeatmapService {
   
     for (let indexLine = 0; indexLine < actualCategories.length; indexLine++) {
       this._ctx.save();
-      this._ctx.translate(this.categoryWidth, this.categoryHeight*indexLine);
+      this._ctx.translate(this._categoryWidth, this._categoryHeight*indexLine);
       this._ctx.moveTo(0,0);
       this._ctx.lineTo(canvasWidth, 0);
       this._ctx.restore();
     }
     for (let indexColumn = 0; indexColumn < qtdYears; indexColumn++) {
       this._ctx.save();
-      this._ctx.translate(this.categoryWidth + this.yearWidth*indexColumn, 0);
+      this._ctx.translate(this._categoryWidth + this._yearWidth*indexColumn, 0);
       this._ctx.moveTo(0,0);
-      this._ctx.lineTo(0, this.timelineHigherPoint);
+      this._ctx.lineTo(0, this._timelineHigherPoint);
       this._ctx.restore();
     }
 
@@ -212,13 +239,13 @@ export class DrawHeatmapService {
     if (this._isDrawedBefore) {
       let canvasWidth = this._canvas.width;
       let canvasHeight = this._canvas.height;
-      let actualCategories = this.SelectedFiltersService.categories;
+      let actualCategories = this.CategoriesControlService.categories;
       let yearRange = this.SelectedFiltersService.selectedYears;
 
-      this.categoryHeight = canvasHeight / (actualCategories.length + 1);
-      this.categoryWidth = (canvasWidth * 20) / 100;
+      this._categoryHeight = canvasHeight / (actualCategories.length + 1);
+      this._categoryWidth = (canvasWidth * 20) / 100;
 
-      this.yearWidth = (canvasWidth* 80)/100/(yearRange[1]-yearRange[0]+1);
+      this._yearWidth = (canvasWidth* 80)/100/(yearRange[1]-yearRange[0]+1);
 
       this.drawCategory();
       this.drawTimeline();

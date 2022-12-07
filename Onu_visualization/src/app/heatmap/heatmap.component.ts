@@ -1,7 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import { SelectedFiltersService } from '../services/selected-filters.service';
 import { DrawHeatmapService } from '../services/draw-heatmap.service';
+import { CategoriesControlService } from '../services/categories-control.service';
+import { SelectedFiltersService } from '../services/selected-filters.service';
 
 @Component({
   selector: 'app-heatmap',
@@ -9,16 +10,19 @@ import { DrawHeatmapService } from '../services/draw-heatmap.service';
   styleUrls: ['./heatmap.component.css'],
 })
 export class HeatmapComponent implements OnInit {
-  constructor(private SelectedFiltersService: SelectedFiltersService, private DrawHeatmapService: DrawHeatmapService) {
-  }
+  constructor(
+    private SelectedFiltersService: SelectedFiltersService,
+    private DrawHeatmapService: DrawHeatmapService,
+    private CategoriesControlService: CategoriesControlService
+  ) {}
 
-  canvas: any;
+  private canvas: any;
 
   ngOnInit(): void {
     this.canvas = d3.select('.teste').node();
 
     this.DrawHeatmapService.canvas = this.canvas;
-    this.DrawHeatmapService.ctx = this.canvas.getContext('2d');;
+    this.DrawHeatmapService.ctx = this.canvas.getContext('2d');
     this.DrawHeatmapService.drawInitialCanvas();
   }
 
@@ -36,5 +40,40 @@ export class HeatmapComponent implements OnInit {
 
     //Redraw canvas
     this.DrawHeatmapService.drawCanvas();
+  }
+
+  @HostListener('click', ['$event'])
+  handleClick(event: any) {
+    let xPosition = event.offsetX;
+    let yPosition = event.offsetY;
+
+    let categoryHeight = this.DrawHeatmapService.categoryHeight;
+    let categoryWidth = this.DrawHeatmapService.categoryWidth;
+    let yearWidth = this.DrawHeatmapService.yearWidth;
+    let timelineHigherPoint = this.DrawHeatmapService.timelineHigherPoint;
+    let isDrawedBefore = this.DrawHeatmapService.isDrawedBefore;
+
+    //Check if canvas was drawed
+    if (isDrawedBefore) {
+      //Check if is a categorie
+      if (xPosition <= categoryWidth) {
+        let categories = this.CategoriesControlService.categories;
+        let selectedIndex = Math.floor(yPosition / categoryHeight);
+
+        this.CategoriesControlService.handleClick(categories[selectedIndex]);
+        this.DrawHeatmapService.drawCanvas();
+      } else if (yPosition <= timelineHigherPoint) {
+        //check if is a heatmap celule
+        let heatmapOffset = xPosition - categoryWidth;
+        let categories = this.CategoriesControlService.categories;
+        let lowerYear = this.SelectedFiltersService.selectedYears[0];
+
+        let selectedIndexX = Math.floor(heatmapOffset / yearWidth);
+        let selectedIndexY = Math.floor(yPosition / categoryHeight);
+
+        //console.log(lowerYear+selectedIndexX,categories[selectedIndexY]);
+        //Future Call to Speech-Bar service
+      }
+    }
   }
 }
