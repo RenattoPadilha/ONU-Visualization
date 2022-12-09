@@ -102,7 +102,7 @@ export class CategoriesControlService {
       'Israel/Palestine',
       'Israel/Syria',
       'Lebanon',
-      'Middle East',
+      ' Middle East ',
       'Syria',
       'Yemen',
     ],
@@ -158,7 +158,7 @@ export class CategoriesControlService {
   }
 
   //Determines if a string is a category or subcategory title
-  private isCategory (categoryName : string) : boolean{
+  isCategory (categoryName : string) : boolean{
     return this._allCategory.includes(categoryName);
   }
 

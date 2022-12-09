@@ -8,7 +8,7 @@ import { SelectedFiltersService } from './selected-filters.service';
 export class DrawHeatmapService {
 
   constructor (private SelectedFiltersService: SelectedFiltersService, private CategoriesControlService: CategoriesControlService) { 
-    this._categoryHeight = 0;
+    this._lineHeight = 0;
     this._categoryWidth = 0;
     this._yearWidth = 0;
     this._timelineHigherPoint = 0;
@@ -17,15 +17,15 @@ export class DrawHeatmapService {
 
   private _canvas: any;
   private _ctx: any;
-  private _categoryHeight: number;
+  private _lineHeight: number;
   private _categoryWidth: number;
   private _yearWidth: number;
   private _timelineHigherPoint: number;
   private _isDrawedBefore: boolean;
   
   
-  get categoryHeight() : number {
-    return  this._categoryHeight;
+  get lineHeight() : number {
+    return  this._lineHeight;
   }
   
   
@@ -87,8 +87,8 @@ export class DrawHeatmapService {
     this._ctx.lineTo(this._categoryWidth, canvasHeight);
 
     for (let index = 0; index < actualCategories.length + 1; index++) {
-      this._ctx.moveTo(0, this._categoryHeight * index);
-      this._ctx.lineTo(this._categoryWidth, this._categoryHeight * index);
+      this._ctx.moveTo(0, this._lineHeight * index);
+      this._ctx.lineTo(this._categoryWidth, this._lineHeight * index);
     }
     this._ctx.stroke();
 
@@ -97,19 +97,26 @@ export class DrawHeatmapService {
     this._ctx.fillStyle = 'white';
     for (let index = 0; index < actualCategories.length; index++) {
       let categoryTitle = actualCategories[index];
+      let text = "";
+      
+      if (this.CategoriesControlService.isCategory(categoryTitle)) {
+        text = 'Click to expand';
+      } else {
+        text = 'Click to shrink';
+      }
 
       this._ctx.font = '1.5rem sans-serif';
       this._ctx.fillText(
         categoryTitle,
         this._categoryWidth / 2,
-        this._categoryHeight * index + this._categoryHeight / 2
+        this._lineHeight * index + this._lineHeight / 2
       );
 
       this._ctx.font = '1rem sans-serif';
       this._ctx.fillText(
-        'Expandir',
+        text,
         this._categoryWidth / 2,
-        this._categoryHeight * index + (this._categoryHeight * 3) / 4
+        this._lineHeight * index + (this._lineHeight * 3) / 4
       );
     }
   }
@@ -124,7 +131,7 @@ export class DrawHeatmapService {
     let lowerYear = yearRange[0];
     let higherYear = yearRange[1];
 
-    this._timelineHigherPoint = canvasHeight - this._categoryHeight;
+    this._timelineHigherPoint = canvasHeight - this._lineHeight;
 
     //fill background
     this._ctx.fillStyle = '#5b92e5';
@@ -157,7 +164,7 @@ export class DrawHeatmapService {
       this._ctx.save();
       this._ctx.translate(
         this._categoryWidth + this._yearWidth * index + this._yearWidth / 2,
-        this._timelineHigherPoint + this._categoryHeight / 2
+        this._timelineHigherPoint + this._lineHeight / 2
       );
       if (this._yearWidth > 55) {
         this._ctx.font = '1.25rem sans-serif';
@@ -198,7 +205,7 @@ export class DrawHeatmapService {
   
     for (let indexLine = 0; indexLine < actualCategories.length; indexLine++) {
       this._ctx.save();
-      this._ctx.translate(this._categoryWidth, this._categoryHeight*indexLine);
+      this._ctx.translate(this._categoryWidth, this._lineHeight*indexLine);
       this._ctx.moveTo(0,0);
       this._ctx.lineTo(canvasWidth, 0);
       this._ctx.restore();
@@ -231,22 +238,25 @@ export class DrawHeatmapService {
     this._ctx.textAlign = 'center';
     this._ctx.fillText("Select Filters to create a Heatmap", this._canvas.width/2, this._canvas.height/2);
   }
+
   //Draw Category, Heatmap and Timeline on Canvas 
   drawCanvas(){
     //Clean Canvas
     this.cleanCanvas();
 
     if (this._isDrawedBefore) {
+      this._canvas.height = this.calculateCanvasHeight ();
+
       let canvasWidth = this._canvas.width;
       let canvasHeight = this._canvas.height;
       let actualCategories = this.CategoriesControlService.categories;
       let yearRange = this.SelectedFiltersService.selectedYears;
-
-      this._categoryHeight = canvasHeight / (actualCategories.length + 1);
+       
+      this._lineHeight = canvasHeight / (actualCategories.length + 1);
       this._categoryWidth = (canvasWidth * 20) / 100;
-
       this._yearWidth = (canvasWidth* 80)/100/(yearRange[1]-yearRange[0]+1);
 
+      console.log ("lineHeight: " + this._lineHeight);
       this.drawCategory();
       this.drawTimeline();
       this.drawHeatmapLines();
@@ -255,4 +265,19 @@ export class DrawHeatmapService {
       this.drawInitialCanvas();
     }    
   }
+
+  calculateCanvasHeight (): number{
+    let originalCanvasHeight = (92 * window.innerHeight) / 100;
+    let minLineHeight = 90;
+    let actualCategories = this.CategoriesControlService.categories;
+
+    let temporaryLineHeight = originalCanvasHeight / (actualCategories.length + 1);
+    
+    //Minimum size to mantain view
+    if (temporaryLineHeight < minLineHeight){
+      return minLineHeight*(actualCategories.length+1);
+    }
+    return originalCanvasHeight;
+  }
+
 }

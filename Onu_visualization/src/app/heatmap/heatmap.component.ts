@@ -47,7 +47,7 @@ export class HeatmapComponent implements OnInit {
     let xPosition = event.offsetX;
     let yPosition = event.offsetY;
 
-    let categoryHeight = this.DrawHeatmapService.categoryHeight;
+    let lineHeight = this.DrawHeatmapService.lineHeight;
     let categoryWidth = this.DrawHeatmapService.categoryWidth;
     let yearWidth = this.DrawHeatmapService.yearWidth;
     let timelineHigherPoint = this.DrawHeatmapService.timelineHigherPoint;
@@ -56,9 +56,9 @@ export class HeatmapComponent implements OnInit {
     //Check if canvas was drawed
     if (isDrawedBefore) {
       //Check if is a categorie
-      if (xPosition <= categoryWidth) {
+      if (xPosition <= categoryWidth && yPosition <= timelineHigherPoint) {
         let categories = this.CategoriesControlService.categories;
-        let selectedIndex = Math.floor(yPosition / categoryHeight);
+        let selectedIndex = Math.floor(yPosition / lineHeight);
 
         this.CategoriesControlService.handleClick(categories[selectedIndex]);
         this.DrawHeatmapService.drawCanvas();
@@ -69,7 +69,7 @@ export class HeatmapComponent implements OnInit {
         let lowerYear = this.SelectedFiltersService.selectedYears[0];
 
         let selectedIndexX = Math.floor(heatmapOffset / yearWidth);
-        let selectedIndexY = Math.floor(yPosition / categoryHeight);
+        let selectedIndexY = Math.floor(yPosition / lineHeight);
 
         //console.log(lowerYear+selectedIndexX,categories[selectedIndexY]);
         //Future Call to Speech-Bar service
