@@ -1,5 +1,6 @@
 .bar-text {
   display: inline;
+  font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: white;
   margin: 0;
   position: absolute;

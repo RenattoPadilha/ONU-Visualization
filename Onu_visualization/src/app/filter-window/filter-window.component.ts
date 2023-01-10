@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SelectedFiltersService } from '../services/selected-filters.service';
-import { DrawHeatmapService } from '../services/draw-heatmap.service';
 import { CsvManagerService } from '../services/csv-manager.service';
-import { CategoriesControlService } from '../services/categories-control.service';
+import { ServiceCommunicationService } from '../services/service-communication.service';
 
 @Component({
   selector: 'app-filter-window',
@@ -11,13 +9,11 @@ import { CategoriesControlService } from '../services/categories-control.service
 })
 export class FilterWindowComponent implements OnInit {
   constructor(
-    private SelectedFiltersService: SelectedFiltersService,
-    private DrawHeatmapService: DrawHeatmapService,
     private CsvManagerService: CsvManagerService,
-    private CategoriesControlService: CategoriesControlService
+    private ServiceCommunicationService: ServiceCommunicationService
   ) {
     this._selectedType = 'Occurrences';
-    this._lowerYear = 1990;
+    this._lowerYear = 2012;
     this._higherYear = 2022;
     this._selectedWords = ['Ukraine', 'Donetsk'];
     this.isFilterWindowOpen = false;
@@ -43,22 +39,12 @@ export class FilterWindowComponent implements OnInit {
 
   submit() {
     if (this.inputValidation()) {
-      console.log(
+      this.ServiceCommunicationService.attFilters(
         this._selectedType,
-        this._lowerYear,
-        this._higherYear,
+        [this._lowerYear, this._higherYear],
         this._selectedWords
       );
-      this.SelectedFiltersService.selectedType = this._selectedType;
-      this.SelectedFiltersService.selectedYears = [
-        this._lowerYear,
-        this._higherYear,
-      ];
-      let actualCategories = this.CategoriesControlService.categories;
-      this.SelectedFiltersService.selectedWords = this._selectedWords;
-      this.DrawHeatmapService.isDrawedBefore = true;
-      this.DrawHeatmapService.drawCanvas();
-      this.CsvManagerService.makeSearch([this._lowerYear, this._higherYear], actualCategories);
+      this.ServiceCommunicationService.handleSearch();
     }
   }
 }

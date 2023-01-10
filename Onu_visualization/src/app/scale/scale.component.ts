@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from "d3";
-import { interpolateBlues } from 'd3';
+import { interpolateReds } from 'd3';
 
 @Component({
   selector: 'app-scale',
@@ -12,7 +12,7 @@ export class ScaleComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.ramp("Blues");
+    this.ramp("Reds");
   }
 
   ramp(name: string) {

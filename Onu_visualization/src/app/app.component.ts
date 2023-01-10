@@ -6,8 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  initCsv: any;
-  filtredCsv: any;
 
-  ngOnInit(): void {}
 }
