@@ -19,6 +19,8 @@
 .filter-label{
   display: block;
   margin-bottom: 5px;
+  font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
 }
 
 .filter-input{

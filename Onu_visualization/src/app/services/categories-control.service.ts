@@ -148,22 +148,13 @@ export class CategoriesControlService {
     return this._categories;
   }
 
-  //Handle category click
-  handleClick(titleClicked: string){
-    if (this.isCategory(titleClicked)) {
-      this.removeCategory(titleClicked);
-    } else{
-      this.removeSubCategories(titleClicked);
-    }
-  }
-
   //Determines if a string is a category or subcategory title
   isCategory (categoryName : string) : boolean{
     return this._allCategory.includes(categoryName);
   }
 
   //Remove category of visualization and add its subcategories
-  private removeCategory(categoryName : string){
+  removeCategory(categoryName : string){
     let absoluteCategoryIndex = this._allCategory.findIndex((element) => categoryName == element);
     let categoryActualIndex = this._categories.findIndex((element) => categoryName == element);
     let subCategories = this._allSubCattegories[absoluteCategoryIndex];
@@ -173,7 +164,7 @@ export class CategoriesControlService {
   }
 
   //Remove subcategories "siblings" of visualization and add its categorie
-  private removeSubCategories(subCategoryName : string){
+  removeSubCategories(subCategoryName : string){
     //descobrir do que é subcategoria
     let category = "";
     let firstSubcattegorie = "";

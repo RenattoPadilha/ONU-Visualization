@@ -1,8 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import { DrawHeatmapService } from '../services/draw-heatmap.service';
-import { CategoriesControlService } from '../services/categories-control.service';
-import { SelectedFiltersService } from '../services/selected-filters.service';
+import { ServiceCommunicationService } from '../services/service-communication.service';
 
 @Component({
   selector: 'app-heatmap',
@@ -11,69 +9,54 @@ import { SelectedFiltersService } from '../services/selected-filters.service';
 })
 export class HeatmapComponent implements OnInit {
   constructor(
-    private SelectedFiltersService: SelectedFiltersService,
-    private DrawHeatmapService: DrawHeatmapService,
-    private CategoriesControlService: CategoriesControlService
+    private ServiceCommunicationService: ServiceCommunicationService
   ) {}
 
   private canvas: any;
+  value: number = 0;
+  isTooltipOn: boolean = false;
+  tooltipX: string = '0px';
+  tooltipY: string = '0px';
 
   ngOnInit(): void {
     this.canvas = d3.select('.teste').node();
 
-    this.DrawHeatmapService.canvas = this.canvas;
-    this.DrawHeatmapService.ctx = this.canvas.getContext('2d');
-    this.DrawHeatmapService.drawInitialCanvas();
+    this.ServiceCommunicationService.setupCanvas(this.canvas);
   }
 
   @HostListener('window:resize', ['$event'])
   resizeCanvas() {
-    // Set display size (80vw/92vh).
-    let sizeWidth = (80 * window.innerWidth) / 100;
-    let sizeHeight = (92 * window.innerHeight) / 100;
+    let canvasDimensions = this.ServiceCommunicationService.canvasOnResize();
 
     //Setting the canvas site and width to be responsive
-    this.canvas.width = sizeWidth;
-    this.canvas.height = sizeHeight;
-    this.canvas.style.width = sizeWidth;
-    this.canvas.style.height = sizeHeight;
-
-    //Redraw canvas
-    this.DrawHeatmapService.drawCanvas();
+    this.canvas.width = canvasDimensions.width;
+    this.canvas.height = canvasDimensions.height;
+    this.canvas.style.width = canvasDimensions.width;
+    this.canvas.style.height = canvasDimensions.height;
   }
 
   @HostListener('click', ['$event'])
   handleClick(event: any) {
-    let xPosition = event.offsetX;
-    let yPosition = event.offsetY;
+    this.ServiceCommunicationService.handleCanvasClick(event);
+  }
 
-    let lineHeight = this.DrawHeatmapService.lineHeight;
-    let categoryWidth = this.DrawHeatmapService.categoryWidth;
-    let yearWidth = this.DrawHeatmapService.yearWidth;
-    let timelineHigherPoint = this.DrawHeatmapService.timelineHigherPoint;
-    let isDrawedBefore = this.DrawHeatmapService.isDrawedBefore;
+  @HostListener('mousemove', ['$event'])
+  onHover(event: any) {
+    let hoverWindowInfo = this.ServiceCommunicationService.canvasOnHover(event);
 
-    //Check if canvas was drawed
-    if (isDrawedBefore) {
-      //Check if is a categorie
-      if (xPosition <= categoryWidth && yPosition <= timelineHigherPoint) {
-        let categories = this.CategoriesControlService.categories;
-        let selectedIndex = Math.floor(yPosition / lineHeight);
-
-        this.CategoriesControlService.handleClick(categories[selectedIndex]);
-        this.DrawHeatmapService.drawCanvas();
-      } else if (yPosition <= timelineHigherPoint) {
-        //check if is a heatmap celule
-        let heatmapOffset = xPosition - categoryWidth;
-        let categories = this.CategoriesControlService.categories;
-        let lowerYear = this.SelectedFiltersService.selectedYears[0];
-
-        let selectedIndexX = Math.floor(heatmapOffset / yearWidth);
-        let selectedIndexY = Math.floor(yPosition / lineHeight);
-
-        //console.log(lowerYear+selectedIndexX,categories[selectedIndexY]);
-        //Future Call to Speech-Bar service
-      }
+    //Check if value isnt 0, if not, tooltip is disabled
+    if (hoverWindowInfo.tooltipOn) {
+      this.tooltipX = event.clientX + 'px';
+      this.tooltipY = event.clientY + 'px';
+      this.value = hoverWindowInfo.value;
+      this.isTooltipOn = true;
+    } else {
+      this.isTooltipOn = false;
     }
+  }
+  @HostListener('mouseout', ['$event'])
+  onOut() {
+    //Tooltip should be disabled when mouses leaves canvas
+    this.isTooltipOn = false;
   }
 }
