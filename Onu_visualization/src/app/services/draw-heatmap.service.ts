@@ -252,7 +252,7 @@ export class DrawHeatmapService {
 
   drawHeatmap(dataset: any) {
     let minValue = 0;
-    let maxValue = 64;
+    let maxValue = 100000;
 
     let colorScale = d3
       .scaleSequential(d3.interpolateReds)
@@ -260,7 +260,7 @@ export class DrawHeatmapService {
 
     this._ctx.save();
     this._ctx.translate(this._categoryWidth, 0);
-
+    
     for (let indexLine = 0; indexLine < dataset.length; indexLine++) {
       for (
         let indexColumn = 0;
@@ -268,7 +268,7 @@ export class DrawHeatmapService {
         indexColumn++
       ) {
         let value = dataset[indexLine][indexColumn];
-        if (value == 0) {
+        if (!value || value == 0) {
           this._ctx.fillStyle = '#BEBEBE';
         } else {
           this._ctx.fillStyle = colorScale(value);
@@ -292,7 +292,7 @@ export class DrawHeatmapService {
   ) {
     //Clean Canvas
     this.cleanCanvas();
-
+    debugger;
     if (this._isDrawedBefore) {
       this._canvas.height = this.calculateCanvasHeight(actualCategories);
 

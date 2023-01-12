@@ -45,7 +45,7 @@ export class HeatmapComponent implements OnInit {
     let hoverWindowInfo = this.ServiceCommunicationService.canvasOnHover(event);
 
     //Check if value isnt 0, if not, tooltip is disabled
-    if (hoverWindowInfo.tooltipOn) {
+    if (hoverWindowInfo.tooltipOn && hoverWindowInfo.value > 0) {
       this.tooltipX = event.clientX + 'px';
       this.tooltipY = event.clientY + 'px';
       this.value = hoverWindowInfo.value;
