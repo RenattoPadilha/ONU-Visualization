@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import * as d3 from "d3";
+import { ScaleControlService } from '../services/scale-control.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private ScaleControlService: ScaleControlService) { }
 
   ngOnInit(): void {
   }  

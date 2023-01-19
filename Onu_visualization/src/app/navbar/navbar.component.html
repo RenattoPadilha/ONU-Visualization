@@ -4,7 +4,7 @@
     </a>
   <h1 class="title">UNSC Heatmap</h1>
   <div class="scale-div">
-    <app-scale></app-scale>
+    <canvas class="scale"></canvas>
   </div>  
   <app-filter-button (isFilterWindowOpen) = "attWindowState($event)"></app-filter-button>
   <app-filter-window [isFilterWindowOpen] = "isFilterWindowOpen"></app-filter-window>

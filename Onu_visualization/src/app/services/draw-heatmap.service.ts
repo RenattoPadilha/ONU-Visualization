@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { CategoriesControlService } from './categories-control.service';
+import { ScaleControlService } from './scale-control.service';
 import * as d3 from 'd3';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DrawHeatmapService {
-  constructor(private CategoriesControlService: CategoriesControlService) {
+  constructor(
+    private CategoriesControlService: CategoriesControlService,
+    private ScaleControlService: ScaleControlService
+  ) {
     this._lineHeight = 0;
     this._categoryWidth = 0;
     this._yearWidth = 0;
@@ -251,16 +255,9 @@ export class DrawHeatmapService {
   }
 
   drawHeatmap(dataset: any) {
-    let minValue = 0;
-    let maxValue = 100000;
-
-    let colorScale = d3
-      .scaleSequential(d3.interpolateReds)
-      .domain([minValue, maxValue]);
-
     this._ctx.save();
     this._ctx.translate(this._categoryWidth, 0);
-    
+
     for (let indexLine = 0; indexLine < dataset.length; indexLine++) {
       for (
         let indexColumn = 0;
@@ -268,11 +265,7 @@ export class DrawHeatmapService {
         indexColumn++
       ) {
         let value = dataset[indexLine][indexColumn];
-        if (!value || value == 0) {
-          this._ctx.fillStyle = '#BEBEBE';
-        } else {
-          this._ctx.fillStyle = colorScale(value);
-        }
+        this._ctx.fillStyle = this.ScaleControlService.colorInScale(value);
         this._ctx.fillRect(
           this._yearWidth * indexColumn,
           this._lineHeight * indexLine,
@@ -292,7 +285,7 @@ export class DrawHeatmapService {
   ) {
     //Clean Canvas
     this.cleanCanvas();
-    debugger;
+    
     if (this._isDrawedBefore) {
       this._canvas.height = this.calculateCanvasHeight(actualCategories);
 

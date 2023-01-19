@@ -27,3 +27,14 @@
   width: 16.5vw;
   height: 8vh;
 }
+
+.scale{
+  box-sizing: border-box;
+  width: 15vw;
+  height: 4vh;
+  border: 1px solid black;
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translateY(-50%);
+}

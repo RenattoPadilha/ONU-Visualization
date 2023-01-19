@@ -3,6 +3,7 @@ import { DrawHeatmapService } from './draw-heatmap.service';
 import { CsvManagerService } from './csv-manager.service';
 import { SelectedFiltersService } from './selected-filters.service';
 import { CategoriesControlService } from './categories-control.service';
+import { ScaleControlService } from './scale-control.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class ServiceCommunicationService {
     private SelectedFiltersService: SelectedFiltersService,
     private CategoriesControlService: CategoriesControlService,
     private CsvManagerService: CsvManagerService,
-    private DrawHeatmapService: DrawHeatmapService
+    private DrawHeatmapService: DrawHeatmapService,
+    private ScaleControlService: ScaleControlService
   ) { }
 
   setupCanvas(canvas: any){
@@ -124,9 +126,11 @@ export class ServiceCommunicationService {
     let yearRange = this.SelectedFiltersService.selectedYears;
     this.CsvManagerService.makeSearch(actualCategories, yearRange, [["the", 0], ["i", 0], ["total", 0]]);
     let dataset = this.CsvManagerService.visibleDataset;
+    this.ScaleControlService.attScale("Purples", 0, 100000);
 
     this.DrawHeatmapService.isDrawedBefore = true;
     this.DrawHeatmapService.drawCanvas(yearRange, actualCategories, dataset);
+    this.ScaleControlService.drawScale();
   }
 
   attFilters(selectedType: string, yearRange: Array<number>, selectedWords: any){
