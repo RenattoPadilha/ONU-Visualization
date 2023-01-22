@@ -123,8 +123,12 @@ export class ServiceCommunicationService {
 
   handleSearch(){
     let actualCategories = this.CategoriesControlService.categories;
+    let selectedType = this.SelectedFiltersService.selectedType;
     let yearRange = this.SelectedFiltersService.selectedYears;
-    this.CsvManagerService.makeSearch(actualCategories, yearRange, [["the", 0], ["i", 0], ["total", 0]]);
+    let selectedWords = this.SelectedFiltersService.selectedWords;
+
+    //[["the", 0], ["i", 0], ["total", 0]]
+    this.CsvManagerService.makeSearch(actualCategories, yearRange, selectedWords);
     let dataset = this.CsvManagerService.visibleDataset;
     this.ScaleControlService.attScale("Purples", 0, 100000);
 
@@ -133,10 +137,14 @@ export class ServiceCommunicationService {
     this.ScaleControlService.drawScale();
   }
 
-  attFilters(selectedType: string, yearRange: Array<number>, selectedWords: any){
-    this.SelectedFiltersService.selectedType = selectedType;
-    this.SelectedFiltersService.selectedYears = yearRange;
-    this.SelectedFiltersService.selectedWords = selectedWords;
+  attFilters(selectedType: string, yearRange: Array<number>, selectedWords: any) : boolean{
+    if (this.SelectedFiltersService.inputValidation(selectedType, yearRange, selectedWords)) {
+      this.SelectedFiltersService.selectedType = selectedType;
+      this.SelectedFiltersService.selectedYears = yearRange;
+      this.SelectedFiltersService.generateSelectedWordsArray(selectedWords);
+      return true;
+    }
+    return false;
   }
 
 }

@@ -13,9 +13,9 @@ export class FilterWindowComponent implements OnInit {
     private ServiceCommunicationService: ServiceCommunicationService
   ) {
     this._selectedType = 'Occurrences';
-    this._lowerYear = 2012;
+    this._lowerYear = 1992;
     this._higherYear = 2022;
-    this._selectedWords = ['Ukraine', 'Donetsk'];
+    this._selectedWords = "";
     this.isFilterWindowOpen = false;
   }
 
@@ -24,27 +24,25 @@ export class FilterWindowComponent implements OnInit {
   }
 
   @Input() isFilterWindowOpen: boolean;
-  private _selectedType: string;
-  private _lowerYear: number;
-  private _higherYear: number;
-  private _selectedWords: any;
-
-  get selectedType(): string {
-    return this._selectedType;
-  }
-
-  inputValidation(): boolean {
-    return true;
-  }
+  _selectedType: string;
+  _lowerYear: number;
+  _higherYear: number;
+  _selectedWords: string;
 
   submit() {
-    if (this.inputValidation()) {
-      this.ServiceCommunicationService.attFilters(
-        this._selectedType,
-        [this._lowerYear, this._higherYear],
-        this._selectedWords
-      );
+    let isValid = this.ServiceCommunicationService.attFilters(
+      this._selectedType,
+      [this._lowerYear, this._higherYear],
+      this._selectedWords
+    );
+    if (isValid) {
+      this._lowerYear = 1992;
+      this._higherYear = 2022;
+      this._selectedWords = "";
+      
       this.ServiceCommunicationService.handleSearch();
+    } else{
+      //Error message
     }
   }
 }

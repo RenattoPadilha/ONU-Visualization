@@ -1,18 +1,18 @@
 <div class="filter-menu" *ngIf ="isFilterWindowOpen">
   <div class="padding-menu">
     <label for="type-search" class="filter-label">Choose search type </label>
-    <select id="type-search" class="filter-input">
-      <option value="Ocurrences">Quantity of Ocurrences</option>
+    <select id="type-search" class="filter-input" [(ngModel)] = "_selectedType">
+      <option value="Occurrences">Quantity of Ocurrences</option>
       <option value="Sentiment">Speaker Sentiment</option>
     </select>
 
     <label for="year-range" class="filter-label">Choose Year Range</label>
-    <input type="number" id="year-range" class="number-input">
-    <input type="number" id="year-range" class="number-input">
+    <input type="number" id="year-range" class="number-input" [(ngModel)]= "_lowerYear">
+    <input type="number" id="year-range" class="number-input" [(ngModel)]= "_higherYear">
 
-    <div *ngIf = "selectedType == 'Occurrences'">
+    <div *ngIf = "_selectedType == 'Occurrences'">
       <label for="words" class="filter-label">Write wanted words</label>
-      <input type="text" id="words" class="filter-input">
+      <input type="text" id="words" class="filter-input" [(ngModel)] = "_selectedWords">
     </div>
 
     <button (click)="submit()" class="filter-button">Search</button>

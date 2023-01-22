@@ -10,9 +10,9 @@ export class SelectedFiltersService {
   private _selectedWords : any;
 
   constructor() { 
-    this._selectedType = "Occurrences";
-    this._selectedYears = [2000,2022];
-    this._selectedWords = ["Ukraine", "Donetsk"];
+    this._selectedType  = "Occurrences";
+    this._selectedYears = [2012,2022];
+    this._selectedWords = [];
   }
 
   ngOnInit(): void {
@@ -38,7 +38,24 @@ export class SelectedFiltersService {
     this._selectedYears = newValue;
   }
   
-  set selectedWords(newValue : any){
-    this._selectedWords = newValue;;
+  generateSelectedWordsArray(allWords : string){
+    let wordsArray = allWords.split(" ");
+    this._selectedWords = [];
+    
+    wordsArray.forEach(element => {
+      let value = element.toLowerCase();
+      this._selectedWords.push([value, 0])
+    });
+
+    this._selectedWords.push (['total', 0]);
+    console.log(this._selectedWords);
+  }
+
+  inputValidation(selectedType: string, yearRange: number[], selectedWords: any) : boolean{
+    if (selectedType === "Occurrences" || selectedType === "Sentiment")
+      if (yearRange[0] >= 1992 || yearRange[0] <= 1992) 
+        if(selectedWords.length > 0)
+          return true;
+    return false;
   }
 }
