@@ -12,7 +12,6 @@ export class ScaleControlService {
   private _canvasReference: any;
 
   set canvasReference(newReference: any) {
-    debugger;
     this._canvasReference = newReference;
   }
 
@@ -34,7 +33,6 @@ export class ScaleControlService {
     for (let i = 0; i < qtdColors; ++i) {
       colors.push(d3.rgb(interpolate(i / (qtdColors - 1))).formatHex());
     }
-    debugger;
     canvas = d3.select("canvas").node();
     const context: any = canvas.getContext("2d");
     const barHeight = canvas.height;

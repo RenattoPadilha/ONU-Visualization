@@ -93,31 +93,60 @@ export class DrawHeatmapService {
     this._ctx.fillStyle = 'white';
     for (let index = 0; index < actualCategories.length; index++) {
       let categoryTitle = actualCategories[index];
-      let text = '';
 
+      /*
       if (this.CategoriesControlService.isCategory(categoryTitle)) {
         text = 'Click to expand';
       } else {
         text = 'Click to shrink';
       }
+      */
+
+      this._ctx.font =
+        '400 1.25rem "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif';
 
       if (categoryTitle.length > 25) {
-        this._ctx.font =
-          '400 0.8rem "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif';
-      } else if (categoryTitle.length > 18) {
-        this._ctx.font =
-          '400 1.25rem "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif';
+        let divisionIndex = 0;
+
+        if (categoryTitle === 'Maintenance Of International Peace And Security') {
+          divisionIndex = 28;
+        } else if(categoryTitle === 'Russian Federation/Ukraine'){
+          divisionIndex = 18
+        } else {
+          for (let actualIndex = 0, position = 0; actualIndex != -1; actualIndex = categoryTitle.indexOf(" ", position)) {
+            if (actualIndex <= 25 && Math.abs(actualIndex-25) < Math.abs(divisionIndex-25)) {
+              divisionIndex = actualIndex;
+            } 
+            position = actualIndex+1;
+          }
+        }
+        let categoryTitle1 = categoryTitle.slice(0, divisionIndex);
+        let categoryTitle2 = categoryTitle.slice(divisionIndex);
+
+        this._ctx.textBaseline = 'bottom';
+        this._ctx.fillText(
+          categoryTitle1,
+          this._categoryWidth / 2,
+          this._lineHeight * index + (this._lineHeight * 1) / 2
+        );
+
+        this._ctx.textBaseline = 'top';
+        this._ctx.fillText(
+          categoryTitle2,
+          this._categoryWidth / 2,
+          this._lineHeight * index + (this._lineHeight * 1) / 2
+        );
+        console.log(categoryTitle.length)
       } else {
-        this._ctx.font =
-          '400 1.5rem "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif';
+        this._ctx.textBaseline = 'middle';
+        this._ctx.fillText(
+          categoryTitle,
+          this._categoryWidth / 2,
+          this._lineHeight * index + (this._lineHeight * 1) / 2
+        );
       }
 
-      this._ctx.fillText(
-        categoryTitle,
-        this._categoryWidth / 2,
-        this._lineHeight * index + this._lineHeight / 2
-      );
-
+      /*
       this._ctx.font =
         '400 1rem "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif';
       this._ctx.fillText(
@@ -125,6 +154,7 @@ export class DrawHeatmapService {
         this._categoryWidth / 2,
         this._lineHeight * index + (this._lineHeight * 3) / 4
       );
+      */
     }
   }
 
@@ -285,7 +315,7 @@ export class DrawHeatmapService {
   ) {
     //Clean Canvas
     this.cleanCanvas();
-    
+
     if (this._isDrawedBefore) {
       this._canvas.height = this.calculateCanvasHeight(actualCategories);
 

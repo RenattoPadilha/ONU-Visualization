@@ -288,7 +288,7 @@ export class CsvManagerService {
     //Counting searched words
     this._filtredDataset.map((object: any, index: any, array: any) => {
       let text = object.text.split(" ");
-      debugger;
+      
       let countObject = Object.fromEntries(searchedWords);      
 
       text.reduce ((accumulator: any, currentValue: any) => {
