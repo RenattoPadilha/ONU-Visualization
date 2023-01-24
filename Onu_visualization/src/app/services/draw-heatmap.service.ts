@@ -294,7 +294,10 @@ export class DrawHeatmapService {
         indexColumn < dataset[indexLine].length;
         indexColumn++
       ) {
-        let value = dataset[indexLine][indexColumn];
+        let value = undefined;
+        if (dataset[indexLine][indexColumn]) {
+          value = dataset[indexLine][indexColumn].count;
+        }
         this._ctx.fillStyle = this.ScaleControlService.colorInScale(value);
         this._ctx.fillRect(
           this._yearWidth * indexColumn,

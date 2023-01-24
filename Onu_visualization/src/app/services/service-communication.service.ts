@@ -130,7 +130,8 @@ export class ServiceCommunicationService {
     //[["the", 0], ["i", 0], ["total", 0]]
     this.CsvManagerService.makeSearch(actualCategories, yearRange, selectedWords);
     let dataset = this.CsvManagerService.visibleDataset;
-    this.ScaleControlService.attScale("Purples", 0, 100000);
+    let maxValue = this.CsvManagerService.getMaxValue();
+    this.ScaleControlService.attScale("Purples", 0, maxValue);
 
     this.DrawHeatmapService.isDrawedBefore = true;
     this.DrawHeatmapService.drawCanvas(yearRange, actualCategories, dataset);

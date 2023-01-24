@@ -7,9 +7,9 @@ import * as d3 from 'd3';
 export class CsvManagerService {
   constructor() {}
 
-  private _originalDataset: any;
-  private _filtredDataset: any;
-  private _visibleDataset: any;
+  private _originalDataset: any; // CSV completo
+  private _filtredDataset: any; //  CSV Filtrado
+  private _visibleDataset: any; //  Array de Numero de Ocorrencias
   private lowerYear: any; //actually 1992
   private higherYear: any; //actually 2022
   
@@ -149,97 +149,121 @@ export class CsvManagerService {
       let yearIndex = element.year - yearRange[0];
       if (element.category == this.allCategory[0]){ //Africa
         if (reorganizedDatabase[0][yearIndex]){
-          reorganizedDatabase[0][yearIndex] += element.countedWords.total;
+          reorganizedDatabase[0][yearIndex].push(element);
+          reorganizedDatabase[0][yearIndex].count += element.countedWords.total;
         } else{
-          reorganizedDatabase[0][yearIndex] = element.countedWords.total;
+          reorganizedDatabase[0][yearIndex] = [element];
+          reorganizedDatabase[0][yearIndex].count = element.countedWords.total;
         }
         //loop in all Africa subcategories until find the one
         for (let index = 1; index <= 33; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex] +=  element.countedWords.total;
+              reorganizedDatabase[index][yearIndex].push(element);
+              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
             } else{
-              reorganizedDatabase[index][yearIndex] =  element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = [element];
+              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
             }
           }
         }
       }else if(element.category == this.allCategory[34]){//Americas
         if (reorganizedDatabase[34][yearIndex]){
-          reorganizedDatabase[34][yearIndex] +=  element.countedWords.total;;
+          reorganizedDatabase[34][yearIndex].push(element);
+          reorganizedDatabase[34][yearIndex].count += element.countedWords.total;
         } else{
-          reorganizedDatabase[34][yearIndex] =  element.countedWords.total;
+          reorganizedDatabase[34][yearIndex] = [element];
+          reorganizedDatabase[34][yearIndex].count = element.countedWords.total;
         }
         //loop in all Americas subcategories until find the one
         for (let index = 35; index <= 42; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex] +=  element.countedWords.total;;
+              reorganizedDatabase[index][yearIndex].push(element);
+              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
             } else{
-              reorganizedDatabase[index][yearIndex] =  element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = [element];
+              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
             }
           }
         }
       }else if(element.category == this.allCategory[43]){//Asia
         if (reorganizedDatabase[43][yearIndex]){
-          reorganizedDatabase[43][yearIndex] +=  element.countedWords.total;;
+          reorganizedDatabase[43][yearIndex].push(element);
+          reorganizedDatabase[43][yearIndex].count += element.countedWords.total;
         } else{
-          reorganizedDatabase[43][yearIndex] =  element.countedWords.total;
+          reorganizedDatabase[43][yearIndex] = [element];
+          reorganizedDatabase[43][yearIndex].count = element.countedWords.total;
         }
         //loop in all Asia subcategories
         for (let index = 44; index <= 52; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex] +=  element.countedWords.total;;
+              reorganizedDatabase[index][yearIndex].push(element);
+              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
             } else{
-              reorganizedDatabase[index][yearIndex] =  element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = [element];
+              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
             }
           }
         }
       }else if(element.category == this.allCategory[53]){//Europe
         if (reorganizedDatabase[53][yearIndex]){
-          reorganizedDatabase[53][yearIndex] +=  element.countedWords.total;;
+          reorganizedDatabase[53][yearIndex].push(element);
+          reorganizedDatabase[53][yearIndex].count += element.countedWords.total;
         } else{
-          reorganizedDatabase[53][yearIndex] =  element.countedWords.total;
+          reorganizedDatabase[53][yearIndex] = [element];
+          reorganizedDatabase[53][yearIndex].count = element.countedWords.total;
         }
         //loop in all Europe subcategories
         for (let index = 54; index <= 66; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex] +=  element.countedWords.total;;
+              reorganizedDatabase[index][yearIndex].push(element);
+              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
             } else{
-              reorganizedDatabase[index][yearIndex] =  element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = [element];
+              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
             }
           }
         }
       }else if(element.category == this.allCategory[67]){ //Middle East
         if (reorganizedDatabase[67][yearIndex]){
-          reorganizedDatabase[67][yearIndex] +=  element.countedWords.total;;
+          reorganizedDatabase[67][yearIndex].push(element);
+          reorganizedDatabase[67][yearIndex].count += element.countedWords.total;
         } else{
-          reorganizedDatabase[67][yearIndex] =  element.countedWords.total;
+          reorganizedDatabase[67][yearIndex] = [element];
+          reorganizedDatabase[67][yearIndex].count = element.countedWords.total;
         }
         //loop in all Middle East subcategories
         for (let index = 68; index <= 77; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex] +=  element.countedWords.total;;
+              reorganizedDatabase[index][yearIndex].push(element);
+              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
             } else{
-              reorganizedDatabase[index][yearIndex] =  element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = [element];
+              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
             }
           }
         }
       }else{ //Thematic
         if (reorganizedDatabase[78][yearIndex]){
-          reorganizedDatabase[78][yearIndex] +=  element.countedWords.total;;
+          reorganizedDatabase[78][yearIndex].push(element);
+          reorganizedDatabase[78][yearIndex].count += element.countedWords.total;
         } else{
-          reorganizedDatabase[78][yearIndex] =  element.countedWords.total;
+          reorganizedDatabase[78][yearIndex] = [element];
+          reorganizedDatabase[78][yearIndex].count = element.countedWords.total;
         }
         //loop in all Thematic subcategories
         for (let index = 79; index <= 104; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex] +=  element.countedWords.total;;
+              reorganizedDatabase[index][yearIndex].push(element);
+              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
             } else{
-              reorganizedDatabase[index][yearIndex] =  element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = [element];
+              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
             }
           }
         }
@@ -273,7 +297,6 @@ export class CsvManagerService {
     this._visibleDataset = reducedArray;
   }
 
-
   //Make search based on input filters
   makeSearch(categories: any, yearRange: Array<number>, searchedWords: any){
 
@@ -292,7 +315,8 @@ export class CsvManagerService {
       let countObject = Object.fromEntries(searchedWords);      
 
       text.reduce ((accumulator: any, currentValue: any) => {
-        for (const prop in countObject) {
+        for (let index = 0; index < searchedWords.length-1; index++) {
+          let prop = searchedWords[index][0]
           if (prop === currentValue.toLowerCase()) {
             accumulator[prop] += 1;
             accumulator.total += 1;
@@ -305,12 +329,33 @@ export class CsvManagerService {
       object.countedWords = countObject;
       return object;
     });
-    
+
+    this._filtredDataset = this._filtredDataset.filter((element: any) => {
+      return element.countedWords.total > 0;
+    });
     this.reorganizeArray(yearRange);
     this.attVisibleDataset(categories);
   }
 
   getCellValue(indexLine: number, indexColumn: number){
-    return this._visibleDataset[indexLine][indexColumn];
+    if (this._visibleDataset[indexLine][indexColumn]) {
+      return this._visibleDataset[indexLine][indexColumn].count;
+    }
+    return undefined;
+  }
+
+  getMaxValue(): number{
+    let maxValue = Number.MIN_SAFE_INTEGER;
+    for (let indexLine = 0; indexLine < this._filtredDataset.length; indexLine++) {
+      for (let indexColumn = 0; indexColumn < this._filtredDataset[indexLine].length; indexColumn++) {
+        if (this._filtredDataset[indexLine][indexColumn]) {
+          let actualValue = this._filtredDataset[indexLine][indexColumn].count;
+          if (actualValue != undefined && actualValue > maxValue) {
+            maxValue = actualValue;
+          }
+        }        
+      }
+    }
+    return maxValue;
   }
 }
