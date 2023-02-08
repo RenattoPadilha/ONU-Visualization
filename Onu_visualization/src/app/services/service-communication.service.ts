@@ -4,11 +4,16 @@ import { CsvManagerService } from './csv-manager.service';
 import { SelectedFiltersService } from './selected-filters.service';
 import { CategoriesControlService } from './categories-control.service';
 import { ScaleControlService } from './scale-control.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceCommunicationService {
+
+  selectedSpeechs : any = [];
+  private messageSource = new  BehaviorSubject(this.selectedSpeechs);
+  currentMessage = this.messageSource.asObservable();
 
   constructor(
     private SelectedFiltersService: SelectedFiltersService,
@@ -106,17 +111,17 @@ export class ServiceCommunicationService {
         this.DrawHeatmapService.drawCanvas(yearRange, actualCategories, this.CsvManagerService.visibleDataset);
         
       } else if (yPosition <= timelineHigherPoint) {
-        /*check if is a heatmap celule
+        //check if is a heatmap celule
         let heatmapOffset = xPosition - categoryWidth;
         //let categories = this.CategoriesControlService.categories;
         //let lowerYear = this.SelectedFiltersService.selectedYears[0];
 
-        let selectedIndexX = Math.floor(heatmapOffset / yearWidth);
-        let selectedIndexY = Math.floor(yPosition / lineHeight);
+        let selectedIndexY = Math.floor(heatmapOffset / yearWidth);
+        let selectedIndexX = Math.floor(yPosition / lineHeight);
 
-        //console.log(lowerYear+selectedIndexX,categories[selectedIndexY]);
+        this.messageSource.next(this.CsvManagerService.getCellSpeechs(selectedIndexX, selectedIndexY));
+        console.log(this.currentMessage);
         //Future Call to Speech-Bar service
-        */
       }
     }
   }

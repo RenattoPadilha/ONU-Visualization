@@ -344,6 +344,13 @@ export class CsvManagerService {
     return undefined;
   }
 
+  getCellSpeechs(indexLine: number, indexColumn: number){
+    if (this._visibleDataset[indexLine][indexColumn]) {
+      return this._visibleDataset[indexLine][indexColumn];
+    }
+    return [];
+  }
+
   getMaxValue(): number{
     let maxValue = Number.MIN_SAFE_INTEGER;
     for (let indexLine = 0; indexLine < this._filtredDataset.length; indexLine++) {

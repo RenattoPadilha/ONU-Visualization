@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ServiceCommunicationService } from '../services/service-communication.service';
 
 @Component({
   selector: 'app-speech-bar',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SpeechBarComponent implements OnInit {
 
-  constructor() { }
+  data : any;
+
+  constructor(private ServiceCommunicationService: ServiceCommunicationService) { }
 
   ngOnInit(): void {
+    this.data = this.ServiceCommunicationService.selectedSpeechs;
+    this.ServiceCommunicationService.currentMessage.subscribe(message => (this.data = message)); //<= Always get current value!
   }
-
+  
 }
