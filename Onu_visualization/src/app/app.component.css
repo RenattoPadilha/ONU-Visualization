@@ -9,14 +9,14 @@
   height: 100vh;
 }
 
-.navbar{
+.navbar-div{
   grid-area: navbar;
 }
 
-.heatmap{
+.heatmap-div{
   grid-area: heatmap;
 }
 
-.sidebar{
+.sidebar-div{
   grid-area: sidebar;
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +24,7 @@ import { FilterWindowComponent } from './filter-window/filter-window.component';
   imports: [
     AppRoutingModule,
     BrowserModule,
+    CommonModule,
     FontAwesomeModule,
     FormsModule
   ],
