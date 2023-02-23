@@ -1,4 +1,17 @@
 <div class="speech-bar">
+
+  <div class="container">
+    <div class="row">
+      <button class="col-lg-6 btn btn-secondary filter-major-button filter-left-button"  ngClass="{{buttons[0]}}" (click)="handleButtonClick(0)">Chronological</button>
+      <button class="col-lg-6 btn btn-secondary filter-major-button filter-right-button" ngClass="{{buttons[1]}}" (click)="handleButtonClick(1)">Ascending</button>
+    </div>
+    <div class="row">
+      <button class="col-lg-3 btn btn-secondary filter-minor-button" ngClass="{{buttons[2]}}" (click)="handleButtonClick(2)">></button>
+      <button class="col-lg-3 btn btn-secondary filter-minor-button" ngClass="{{buttons[3]}}" (click)="handleButtonClick(3)"><</button>
+      <button class="col-lg-3 btn btn-secondary filter-minor-button" ngClass="{{buttons[4]}}" (click)="handleButtonClick(4)">></button>
+      <button class="col-lg-3 btn btn-secondary filter-minor-button" ngClass="{{buttons[5]}}" (click)="handleButtonClick(5)"><</button>
+    </div> 
+  </div>
   <div class="speech-div" *ngFor="let speech of data">
     <p class="speech-line"><b>Agenda:</b> {{speech.agenda}}</p>
     <p class="speech-line"><b>Data:</b> {{speech.date}}</p>
@@ -6,8 +19,8 @@
     <p class="speech-line"><b>Amostra:</b> {{speech.text}}</p>
 
     <a target="_blank" href="{{speech.url}}">
-      <button class="btn btn-info click-button left-button">Open in ONU</button>
+      <button class="btn btn-info speech-button speech-left-button">Open in ONU</button>
     </a>
-    <button class="btn btn-secondary click-button right-button">Open Here</button>
+    <button class="btn btn-secondary speech-button speech-right-button">Open Here</button>
   </div>
 </div>

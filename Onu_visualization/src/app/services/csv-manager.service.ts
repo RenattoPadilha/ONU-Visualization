@@ -130,8 +130,7 @@ export class CsvManagerService {
       agenda: row.agenda_info, //agenda_info - UN Official Agenda
       category: row.agenda_item1, //category
       sucategory: row.agenda_item_manual, //subcategory
-      date: row.date, //meeting date
-      year: +row.year, //meeting year
+      date: new Date(row.year, row.month-1,row.day), //meeting date
       country: row.country, //speech country
       speaker: row.speaker, //name of representative
       url: row.url, //speech url on ONU website
@@ -146,7 +145,7 @@ export class CsvManagerService {
     
     //analysing category
     this._filtredDataset.forEach((element:any) =>{
-      let yearIndex = element.year - yearRange[0];
+      let yearIndex = element.date.getFullYear() - yearRange[0];
       if (element.category == this.allCategory[0]){ //Africa
         if (reorganizedDatabase[0][yearIndex]){
           reorganizedDatabase[0][yearIndex].push(element);
@@ -305,7 +304,7 @@ export class CsvManagerService {
     let finalYear = yearRange[1];
 
     this._filtredDataset = this._originalDataset.filter((element: any) => {
-      return element.year >= initYear && element.year <= finalYear;
+      return element.date.getFullYear() >= initYear && element.date.getFullYear() <= finalYear;
     });
 
     //Counting searched words

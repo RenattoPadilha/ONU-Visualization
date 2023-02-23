@@ -4,23 +4,20 @@ import { CsvManagerService } from './csv-manager.service';
 import { SelectedFiltersService } from './selected-filters.service';
 import { CategoriesControlService } from './categories-control.service';
 import { ScaleControlService } from './scale-control.service';
-import { BehaviorSubject } from 'rxjs';
+import { SpeechsControlServiceService } from './speechs-control-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceCommunicationService {
 
-  selectedSpeechs : any = [];
-  private messageSource = new  BehaviorSubject(this.selectedSpeechs);
-  currentMessage = this.messageSource.asObservable();
-
   constructor(
     private SelectedFiltersService: SelectedFiltersService,
     private CategoriesControlService: CategoriesControlService,
     private CsvManagerService: CsvManagerService,
     private DrawHeatmapService: DrawHeatmapService,
-    private ScaleControlService: ScaleControlService
+    private ScaleControlService: ScaleControlService,
+    private SpeechsControlServiceService: SpeechsControlServiceService
   ) { }
 
   setupCanvas(canvas: any){
@@ -119,9 +116,7 @@ export class ServiceCommunicationService {
         let selectedIndexY = Math.floor(heatmapOffset / yearWidth);
         let selectedIndexX = Math.floor(yPosition / lineHeight);
 
-        this.messageSource.next(this.CsvManagerService.getCellSpeechs(selectedIndexX, selectedIndexY));
-        console.log(this.currentMessage);
-        //Future Call to Speech-Bar service
+        this.SpeechsControlServiceService.attSpeechs(this.CsvManagerService.getCellSpeechs(selectedIndexX, selectedIndexY));
       }
     }
   }

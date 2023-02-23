@@ -1,6 +1,7 @@
 .speech-bar{
   background-color: #5b92e5;
   height: 100vh;
+  position: relative;
   overflow-y: scroll;
 }
 
@@ -11,7 +12,7 @@
   background-color: #1f6fe7;
   border: 1px solid black;
   height: 25vh;
-  margin: 0 1vw 2vh;
+  margin: 1vh 1vw 1vh;
   width: 17vw;
 }
 
@@ -24,7 +25,7 @@
   text-overflow: ellipsis;
 }
 
-.click-button{
+.speech-button{
   border: solid black;
   position: absolute;
   bottom: 0;
@@ -32,23 +33,67 @@
   width: 50%;
 }
 
-.left-button{
+.speech-left-button{
   left: 0;
   border-radius: 0 0 0 15px;
   border-width: 1px 1px 0 0;
 }
-.left-button:active{
+.speech-left-button:active{
   border: solid black;
   border-width: 1px 1px 0 0;
 }
 
-.right-button{
+.speech-right-button{
   right: 0;
   border-radius: 0 0 15px 0;
   border-width: 1px 0 0 0;
 }
 
-.right-button:active{
+.speech-right-button:active{
   border: solid black;
   border-width: 1px 0 0 0;
+}
+
+.filter-major-button{
+  border: solid white;
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+.filter-minor-button{
+  border: solid white;
+  border-radius: 0;
+  border-width: 0 1px 1px 0;
+}
+
+.filter-minor-last-button{
+  border-width: 0 0 1px 0;
+}
+
+.filter-minor-button:active{
+  border: solid white;
+  border-width: 0 1px 1px 0;
+}
+
+.filter-minor-last-button:active{
+  border: solid white;
+  border-width: 0 0 1px 0;
+}
+
+.filter-left-button{
+  border-width: 0 1px 1px 0;
+}
+
+.filter-right-button{
+  border-width: 0 0 1px 0;
+}
+
+.filter-left-button:active{
+  border: solid black;
+  border-width: 0 1px 1px 0;
+}
+
+.filter-right-button:active{
+  border: solid black;
+  border-width: 0 0 1px 0;
 }
