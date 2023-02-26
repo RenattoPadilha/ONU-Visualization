@@ -1,20 +1,32 @@
 <div class="filter-menu" *ngIf ="isFilterWindowOpen">
   <div class="padding-menu">
-    <label for="type-search" class="filter-label">Choose search type </label>
-    <select id="type-search" class="filter-input" [(ngModel)] = "_selectedType">
-      <option value="Occurrences">Quantity of Ocurrences</option>
-      <option value="Sentiment">Speaker Sentiment</option>
-    </select>
+    <mat-form-field appearance="fill" class="filter-input">
+      <mat-label>Choose search type</mat-label>
+      <mat-select [(value)]="_selectedType">
+        <mat-option value="Occurrences">Quantity of Ocurrences</mat-option>
+        <mat-option value="Sentiment">Speaker Sentiment</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <label for="year-range" class="filter-label">Choose Year Range</label>
-    <input type="number" id="year-range" class="number-input" [(ngModel)]= "_lowerYear">
-    <input type="number" id="year-range" class="number-input" [(ngModel)]= "_higherYear">
+    <mat-form-field appearance="fill" class="filter-input">
+      <mat-label>Enter a Year range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" [(ngModel)]= "_lowerYear">
+        <input matEndDate placeholder="End date" [(ngModel)]= "_higherYear">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
 
     <div *ngIf = "_selectedType == 'Occurrences'">
-      <label for="words" class="filter-label">Write wanted words</label>
-      <input type="text" id="words" class="filter-input" [(ngModel)] = "_selectedWords">
+      <mat-form-field class="filter-input">
+        <mat-label>Write wanted words</mat-label>
+        <textarea matInput placeholder="Ex. Ukraine Russia Donetsk..." [(ngModel)] = "_selectedWords"></textarea>
+      </mat-form-field>
+    </div>    
+    <div class="filter-input">
+      <button class="filter-button" mat-raised-button color="primary" (click)="submit()">Search</button>
     </div>
-
-    <button (click)="submit()" class="filter-button">Search</button>
   </div>
 </div>

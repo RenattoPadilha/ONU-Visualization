@@ -22,6 +22,7 @@
   border: solid white;
   border-width: 0px 2px;
   box-sizing: border-box;
+  font-size: 2rem;
 }
 
 .filter-button:hover {

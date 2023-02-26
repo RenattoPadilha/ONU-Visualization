@@ -5,6 +5,7 @@
   border: 2px solid white;
   background-color: #5b92e5;
   border-radius: 0 0 4% 4%;
+  overflow-y: auto;
   top: 8%;
   right: 20%;
   text-align: left;
@@ -24,18 +25,12 @@
 }
 
 .filter-input{
+  position: relative;
   margin-bottom: 15px;
   width: 100%;
 }
 
-.number-input{
-  margin-bottom: 15px;
-  width: 30%;
-}
-
 .filter-button{
-  display: block;
   position: absolute;
-  right: 7.5%;
-  bottom: 7.5%;
+  right: 0;
 }

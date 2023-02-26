@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { faCircleChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-filter-button',
@@ -13,7 +12,6 @@ export class FilterButtonComponent implements OnInit {
   width = '20vw';
   height = '8vh';
   //icon position
-  icon = faCircleChevronDown;
   iconPosition = 'translateY(-50%) rotate(-180deg)';
   isWindowOpen = false;
 
