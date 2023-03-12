@@ -6,12 +6,12 @@ import { Injectable } from '@angular/core';
 export class SelectedFiltersService {
 
   private _selectedType: string;
-  private _selectedYears : Array<number>;
+  private _selectedYears : Array<Date>;
   private _selectedWords : any;
 
   constructor() { 
     this._selectedType  = "Occurrences";
-    this._selectedYears = [2012,2022];
+    this._selectedYears = [new Date ("01/01/1992"), new Date ("12/31/2022")];
     this._selectedWords = [];
   }
 
@@ -22,7 +22,7 @@ export class SelectedFiltersService {
     return this._selectedType;
   }
 
-  get selectedYears() : number[] {
+  get selectedYears() : Date[] {
     return this._selectedYears;
   }
   
@@ -34,7 +34,7 @@ export class SelectedFiltersService {
     this._selectedType = newValue;
   }
 
-  set selectedYears(newValue : number[]){
+  set selectedYears(newValue : Date[]){
     this._selectedYears = newValue;
   }
   
@@ -51,9 +51,9 @@ export class SelectedFiltersService {
     console.log(this._selectedWords);
   }
 
-  inputValidation(selectedType: string, yearRange: number[], selectedWords: any) : boolean{
+  inputValidation(selectedType: string, yearRange: Date[], selectedWords: any) : boolean{
     if (selectedType === "Occurrences" || selectedType === "Sentiment")
-      if (yearRange[0] >= 1992 || yearRange[0] <= 1992) 
+      if (yearRange[0] >= new Date ("01/01/1992") || yearRange[1] < new Date ("01/01/2023")) 
         if(selectedWords.length > 0)
           return true;
     return false;

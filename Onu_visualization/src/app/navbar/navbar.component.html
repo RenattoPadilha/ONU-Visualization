@@ -4,9 +4,34 @@
     </a>
   <h1 class="title">UNSC Heatmap</h1>
   <div class="scale-div">
-    <canvas class="scale"></canvas>
+    <svg class="scale"></svg>
   </div>  
   <app-filter-button (isFilterWindowOpen) = "attWindowState($event)"></app-filter-button>
   <app-filter-window [isFilterWindowOpen] = "isFilterWindowOpen"></app-filter-window>
+
+  <mat-expansion-panel
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+  >
+    <mat-expansion-panel-header class="speech-sort-button">
+      <mat-panel-title class="speech-sort-title">
+        Speechs Order
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-radio-group
+      [(ngModel)]="selectedSort"
+      (change)="handleButtonClick()"
+      aria-label="Select an option"
+    >
+      <mat-radio-button class="radio-options" value="0"
+        >Chronological Order</mat-radio-button>
+      <mat-radio-button class="radio-options" value="1"
+        >Reverse Chronological Order</mat-radio-button>
+      <mat-radio-button class="radio-options" value="2"
+        >Ascending Order</mat-radio-button>
+      <mat-radio-button class="radio-options" value="3"
+        >Descending Order</mat-radio-button>
+    </mat-radio-group>
+  </mat-expansion-panel>
 </div>
 

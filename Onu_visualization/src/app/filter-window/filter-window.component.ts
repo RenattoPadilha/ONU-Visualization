@@ -13,8 +13,8 @@ export class FilterWindowComponent implements OnInit {
     private ServiceCommunicationService: ServiceCommunicationService
   ) {
     this._selectedType = 'Occurrences';
-    this._lowerYear = 1992;
-    this._higherYear = 2022;
+    this._lowerYear = new Date ("01/01/1992");
+    this._higherYear = new Date ("12/31/2022");
     this._selectedWords = "";
     this.isFilterWindowOpen = false;
   }
@@ -24,20 +24,22 @@ export class FilterWindowComponent implements OnInit {
   }
 
   @Input() isFilterWindowOpen: boolean;
+  _lowerYear: Date;
+  _higherYear: Date;
   _selectedType: string;
-  _lowerYear: number;
-  _higherYear: number;
   _selectedWords: string;
 
   submit() {
+    console.log(this._lowerYear);
+    console.log(this._higherYear);
     let isValid = this.ServiceCommunicationService.attFilters(
       this._selectedType,
       [this._lowerYear, this._higherYear],
       this._selectedWords
     );
     if (isValid) {
-      this._lowerYear = 1992;
-      this._higherYear = 2022;
+      this._lowerYear = new Date ("01/01/1992");
+      this._higherYear = new Date ("12/31/2022");
       this._selectedWords = "";
       
       this.ServiceCommunicationService.handleSearch();

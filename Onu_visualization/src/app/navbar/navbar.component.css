@@ -1,9 +1,10 @@
 .navbar-container{
   background-color: #5b92e5;
   height: 8vh;
-  width: 80vw;
+  width: 100vw;
   display: flex;
   text-align: center;
+  z-index: 2;
 }
 
 .title{
@@ -29,12 +30,43 @@
 }
 
 .scale{
-  box-sizing: border-box;
   width: 15vw;
   height: 4vh;
-  border: 1px solid black;
   position: absolute;
   top: 50%;
   left: 0%;
   transform: translateY(-50%);
+}
+
+.radio-options{
+  color: white !important;
+  display: block;
+}
+
+mat-radio-group::before mat-radio-group::after{
+  color: white !important;
+}
+
+.speech-sort-title{
+  color: white;
+  font-size: 2rem;
+  font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+}
+
+.speech-sort-button{
+  height: 8vh;
+}
+
+mat-expansion-panel{
+  background-color: #5b92e5;
+  width: 20vw;
+  border: solid white;
+  border-width: 0 0 0 2px;
+  border-radius: 0;
+  box-sizing: border-box;
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  text-align: left;
 }

@@ -71,14 +71,14 @@ export class DrawHeatmapService {
     let canvasHeight = this._canvas.height;
 
     //drawing categories rectangles
-    this._ctx.fillStyle = '#5b92e5';
+    this._ctx.fillStyle = 'white';
     this._ctx.rect(0, 0, this._categoryWidth, canvasHeight);
     this._ctx.fill();
 
     //drawing categories lines
     this._ctx.beginPath();
     this._ctx.lineWidth = '1';
-    this._ctx.strokeStyle = 'white';
+    this._ctx.strokeStyle = 'gray';
     this._ctx.moveTo(this._categoryWidth, 0);
     this._ctx.lineTo(this._categoryWidth, canvasHeight);
 
@@ -90,7 +90,7 @@ export class DrawHeatmapService {
 
     //drawing categories text
     this._ctx.textAlign = 'center';
-    this._ctx.fillStyle = 'white';
+    this._ctx.fillStyle = 'black';
     for (let index = 0; index < actualCategories.length; index++) {
       let categoryTitle = actualCategories[index];
 
@@ -159,25 +159,25 @@ export class DrawHeatmapService {
   }
 
   //Draw Timeline on Canvas
-  drawTimeline(yearRange: Array<number>) {
+  drawTimeline(yearRange: Array<Date>) {
     let canvasWidth = this._canvas.width;
     let canvasHeight = this._canvas.height;
 
-    let qtdYears = yearRange[1] - yearRange[0] + 2;
-    let lowerYear = yearRange[0];
-    let higherYear = yearRange[1];
+    let lowerYear = +yearRange[0].getFullYear();
+    let higherYear = +yearRange[1].getFullYear();
+    let qtdYears = higherYear - lowerYear + 2;
 
     this._timelineHigherPoint = canvasHeight - this._lineHeight;
 
     //fill background
-    this._ctx.fillStyle = '#5b92e5';
+    this._ctx.fillStyle = 'white';
     this._ctx.rect(0, this._timelineHigherPoint, canvasWidth, canvasHeight);
     this._ctx.fill();
 
     //drawing year lines
     this._ctx.beginPath();
     this._ctx.lineWidth = '1';
-    this._ctx.strokeStyle = 'white';
+    this._ctx.strokeStyle = 'gray';
     this._ctx.moveTo(this._categoryWidth, this._timelineHigherPoint);
     this._ctx.lineTo(canvasWidth, this._timelineHigherPoint);
     this._ctx.stroke();
@@ -195,7 +195,7 @@ export class DrawHeatmapService {
     this._ctx.stroke();
 
     //drawing text
-    this._ctx.fillStyle = 'white';
+    this._ctx.fillStyle = 'black';
     for (let index = 0; lowerYear <= higherYear; index++) {
       this._ctx.save();
       this._ctx.translate(
@@ -229,12 +229,12 @@ export class DrawHeatmapService {
   }
 
   //Draw Heatmpap Lines on Canvas
-  drawHeatmapLines(yearRange: Array<number>, actualCategories: Array<string>) {
+  drawHeatmapLines(yearRange: Array<Date>, actualCategories: Array<string>) {
     let canvasWidth = this._canvas.width;
     let canvasHeight = this._canvas.height;
 
     //ver quantos quadrados tem
-    let qtdYears = yearRange[1] - yearRange[0] + 1;
+    let qtdYears = +yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1;
 
     this._ctx.beginPath();
     this._ctx.lineWidth = '1';
@@ -312,7 +312,7 @@ export class DrawHeatmapService {
 
   //Draw Category, Heatmap and Timeline on Canvas
   drawCanvas(
-    yearRange: Array<number>,
+    yearRange: Array<Date>,
     actualCategories: Array<string>,
     dataset: any
   ) {
@@ -328,7 +328,7 @@ export class DrawHeatmapService {
       this._lineHeight = canvasHeight / (actualCategories.length + 1);
       this._categoryWidth = (canvasWidth * 20) / 100;
       this._yearWidth =
-        (canvasWidth * 80) / 100 / (yearRange[1] - yearRange[0] + 1);
+        (canvasWidth * 80) / 100 / (+yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1);
 
       console.log('lineHeight: ' + this._lineHeight);
       this.drawCategory(actualCategories);

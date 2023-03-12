@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from "d3";
-import { ScaleControlService } from '../services/scale-control.service';
+import { SpeechsControlServiceService } from '../services/speechs-control-service.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -8,7 +8,10 @@ import { ScaleControlService } from '../services/scale-control.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private ScaleControlService: ScaleControlService) { }
+  constructor(private SpeechsControlServiceService: SpeechsControlServiceService) { }
+
+  panelOpenState = true;
+  selectedSort = '0';
 
   ngOnInit(): void {
   }  
@@ -17,5 +20,9 @@ export class NavbarComponent implements OnInit {
  
   attWindowState (actualState: boolean){
     this.isFilterWindowOpen = actualState;
+  }
+
+  handleButtonClick(){
+    this.SpeechsControlServiceService.attSort(this.selectedSort);
   }
 }

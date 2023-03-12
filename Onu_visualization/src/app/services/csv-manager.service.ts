@@ -139,13 +139,13 @@ export class CsvManagerService {
     };
   } 
   
-  private reorganizeArray(yearRange: Array<number>){
-    let qtdYears = yearRange[1] - yearRange[0] + 1;
+  private reorganizeArray(yearRange: Array<Date>){
+    let qtdYears = +yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1;
     let reorganizedDatabase = [...Array(105)].map(e => {return [...Array(qtdYears)]});
     
     //analysing category
     this._filtredDataset.forEach((element:any) =>{
-      let yearIndex = element.date.getFullYear() - yearRange[0];
+      let yearIndex = element.date.getFullYear() - yearRange[0].getFullYear();
       if (element.category == this.allCategory[0]){ //Africa
         if (reorganizedDatabase[0][yearIndex]){
           reorganizedDatabase[0][yearIndex].push(element);
@@ -297,14 +297,14 @@ export class CsvManagerService {
   }
 
   //Make search based on input filters
-  makeSearch(categories: any, yearRange: Array<number>, searchedWords: any){
+  makeSearch(categories: any, yearRange: Array<Date>, searchedWords: any){
 
     //Filter By Year
     let initYear = yearRange[0];
     let finalYear = yearRange[1];
 
     this._filtredDataset = this._originalDataset.filter((element: any) => {
-      return element.date.getFullYear() >= initYear && element.date.getFullYear() <= finalYear;
+      return element.date >= initYear && element.date <= finalYear;
     });
 
     //Counting searched words

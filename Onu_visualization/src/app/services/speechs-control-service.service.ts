@@ -11,12 +11,32 @@ export class SpeechsControlServiceService {
   private messageSource = new BehaviorSubject<any>([]);
   currentMessage = this.messageSource.asObservable();
 
+  private messageSort = new BehaviorSubject<any>([]);
+  currentSort = this.messageSort.asObservable();
+
   attSpeechs(newSpeechs : any){
     this.messageSource.next(newSpeechs);
-    this.sortByDate(true);
+    this.sortChooser();
   }
 
-  sortByQuantity(isAscendingOrder : boolean){
+  attSort(newFilter : any){
+    this.messageSort.next(newFilter);
+    this.sortChooser();
+  }
+
+  private sortChooser(){
+    if (this.messageSort.value == '0') {
+      this.sortByDate(true);
+    } else if (this.messageSort.value == '1') {
+      this.sortByDate(false);
+    } else if (this.messageSort.value == '2'){
+      this.sortByQuantity(true);
+    } else { //currentSort == '3'
+      this.sortByQuantity(false);
+    }
+  }
+
+  private sortByQuantity(isAscendingOrder : boolean){
     let actualSpeechs = this.messageSource.value;
     let sortedSpeechs;
     let sortFunction;
@@ -31,7 +51,7 @@ export class SpeechsControlServiceService {
     this.messageSource.next(sortedSpeechs);
   }
 
-  sortByDate(isChronologicalOrder : boolean){
+  private sortByDate(isChronologicalOrder : boolean){
     let actualSpeechs = this.messageSource.value;
     let sortedSpeechs;
     let sortFunction;

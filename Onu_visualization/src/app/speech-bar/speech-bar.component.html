@@ -1,44 +1,31 @@
 <div class="speech-bar">
-  <mat-expansion-panel
-    *ngIf="data.length != 0"
-    (opened)="panelOpenState = true"
-    (closed)="panelOpenState = false"
-  >
-    <mat-expansion-panel-header class="speech-sort-button">
-      <mat-panel-title class="speech-sort-title">
-        Speechs Order
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-radio-group aria-label="Select an option">
-      <mat-radio-group
-        [(ngModel)]="selectedSort"
-        (change)="handleButtonClick()"
-      >
-        <mat-radio-button class="radio-options" value="0"
-          >Chronological Order</mat-radio-button>
-        <mat-radio-button class="radio-options" value="1"
-          >Reverse Chronological Order</mat-radio-button>
-        <mat-radio-button class="radio-options" value="2"
-          >Ascending Order</mat-radio-button>
-        <mat-radio-button class="radio-options" value="3"
-          >Descending Order</mat-radio-button>
-      </mat-radio-group>
-    </mat-radio-group>
-  </mat-expansion-panel>
-
   <div class="speech-div" *ngFor="let speech of data">
     <p class="speech-line"><b>Agenda:</b> {{ speech.agenda }}</p>
-    <p class="speech-line"><b>Data:</b> {{ speech.date }}</p>
+    <p class="speech-line">
+      <b>Data:</b> {{ speech.date.toLocaleDateString() }}
+    </p>
     <p class="speech-line"><b>Qtd:</b> {{ speech.countedWords.total }}</p>
     <p class="speech-line"><b>Amostra:</b> {{ speech.text }}</p>
 
     <a target="_blank" href="{{ speech.url }}">
-      <button class="btn btn-info speech-button speech-left-button">
-        Open in ONU
-      </button>
+      <button class="speech-button speech-left-button">Open in ONU</button>
     </a>
-    <button class="btn btn-secondary speech-button speech-right-button">
-      Open Here
-    </button>
+    <button class="speech-button speech-right-button">Open Here</button>
   </div>
+
+  <mat-card class="speech-div2" *ngFor="let speech of data">
+    
+      <div class="row">
+        <div class="col-8">
+          <p class="speech-title">{{speech.agenda}}</p>
+          <p>{{speech.date.toLocaleDateString()}}</p>
+        </div>
+        <div class="col-4">
+          <p>{{speech.countedWords.total}}</p>
+        </div>
+      </div>    
+    <mat-card-content class="speech-content">
+      <p >{{ speech.text }}</p>
+    </mat-card-content>
+  </mat-card>
 </div>

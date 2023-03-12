@@ -135,10 +135,10 @@ export class ServiceCommunicationService {
 
     this.DrawHeatmapService.isDrawedBefore = true;
     this.DrawHeatmapService.drawCanvas(yearRange, actualCategories, dataset);
-    this.ScaleControlService.drawScale();
+    this.ScaleControlService.Legend('Purples');
   }
 
-  attFilters(selectedType: string, yearRange: Array<number>, selectedWords: any) : boolean{
+  attFilters(selectedType: string, yearRange: Array<Date>, selectedWords: any) : boolean{
     if (this.SelectedFiltersService.inputValidation(selectedType, yearRange, selectedWords)) {
       this.SelectedFiltersService.selectedType = selectedType;
       this.SelectedFiltersService.selectedYears = yearRange;

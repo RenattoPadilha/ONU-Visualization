@@ -24,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatIconModule,
     MatExpansionModule,
     MatRadioModule,
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

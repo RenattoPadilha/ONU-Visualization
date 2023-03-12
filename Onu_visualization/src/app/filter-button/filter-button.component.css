@@ -20,7 +20,7 @@
   display: inline-flex;
   cursor: pointer;
   border: solid white;
-  border-width: 0px 2px;
+  border-width: 0 0 0 2px;
   box-sizing: border-box;
   font-size: 2rem;
 }

@@ -1,15 +1,19 @@
 .speech-bar{
-  background-color: #5b92e5;
-  height: 100vh;
+  background-color: white;
+  height: 92vh;
   position: relative;
   overflow-y: scroll;
+  border: solid;
+  border-width: 0 0 0 2px;
+  border-color: gray;
+  box-sizing: border-box;
 }
 
 .speech-div{
   position: relative;
   border-radius: 15px;
   padding: 2px 5px 2px;
-  background-color: #1f6fe7;
+  background-color: #395B64;
   border: 1px solid black;
   height: 25vh;
   margin: 1vh 1vw 1vh;
@@ -34,6 +38,7 @@
 }
 
 .speech-left-button{
+  background-color: #A5C9CA;
   left: 0;
   border-radius: 0 0 0 15px;
   border-width: 1px 1px 0 0;
@@ -44,6 +49,7 @@
 }
 
 .speech-right-button{
+  background-color: #DFD6FF;
   right: 0;
   border-radius: 0 0 15px 0;
   border-width: 1px 0 0 0;
@@ -54,18 +60,39 @@
   border-width: 1px 0 0 0;
 }
 
-.radio-options{
-  display: block;
+.row{
+  width: 17vw;
 }
 
-.speech-sort-title{
-  font-size: 1.5rem;
+
+
+.speech-header{
+  padding: 16px;
+}
+.speech-title {
+  color: #E7F6F2;
+  width: 100%;
+  height: 30%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.speech-sort-button{
-  height: 8vh;
+.speech-content{
+  color: #E7F6F2;
+  background-color: #2C3333;
+  height: 50%;
+  overflow-y: auto;
+  border-radius: 5px;
+  margin-bottom: 3%;
 }
 
-mat-expansion-panel{
-  background-color: #5b92e5;
+.speech-div2{
+  margin: 10px 10px;
+  height: 30vh;
+  max-width: 19vw;
+  padding: 8px 16px;
+}
+
+.mat-mdc-card-content{
+  padding: 5px 10px;
 }
