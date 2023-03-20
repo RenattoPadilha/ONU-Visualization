@@ -92,8 +92,9 @@ export class ScaleControlService {
   tickValues
 }: any = {}) {
 
-  
   const svg = d3.select("svg");
+  svg.selectAll("*").remove();
+  
   let widthString = svg.style("width"); 
   let heightString = svg.style("height"); 
 
