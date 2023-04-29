@@ -7,9 +7,15 @@ import * as d3 from 'd3';
 export class CsvManagerService {
   constructor() {}
 
-  private _originalDataset: any; // CSV completo
-  private _filtredDataset: any; //  CSV Filtrado
-  private _visibleDataset: any; //  Array de Numero de Ocorrencias
+  private _originalDataset: any; // CSV completo //! Talvez precise trocar o nome para deixar mais claro que eh o dataset completo com texto
+  private _initFreqDataset: any; // CSV de frequencia completo
+
+  private _filtredSpeechsDataset: any;
+  private _filtredDataset: any; //  CSV Filtrado //! Talvez precise trocar o nome para deixar mais claro que eh o dataset completo com texto
+  
+  private _visibleSpeechDataset: any
+  private _visibleDataset: any; //  Array de Numero de Ocorrencias //! N vai ser so de ocorrencia
+
   private lowerYear: any; //actually 1992
   private higherYear: any; //actually 2022
   
@@ -138,132 +144,156 @@ export class CsvManagerService {
       countedWords : [],
     };
   } 
-  
-  private reorganizeArray(yearRange: Array<Date>){
+
+  private rowRemover2(row: any) {
+    return {
+      category: row.agenda_item1, //category
+      sucategory: row.agenda_item_manual, //subcategory
+      date: new Date(row.year, 0, 1), //meeting date
+      qtdMeetings: +row.meetings,
+      qtdSpeeches: +row.speeches,
+      qtdWords: +row.words,
+      qtdResolutions: +row.resolutions,
+      posshare: +row.posshare,
+      negshare: +row.negshare,
+      qtdSovereignty: +row.sovereignty,
+      percSovereignty: +row.sovereignty_perc,
+      qtdAssistance: +row.humanitarian_assistance,
+      percAssistance: +row.humanitarian_assistance_perc,
+    };
+  }
+
+  //!TROCAR O NOME DA FUNCAO
+  private reorganizeArray(selectedType:any, yearRange: Array<Date>){
     let qtdYears = +yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1;
     let reorganizedDatabase = [...Array(105)].map(e => {return [...Array(qtdYears)]});
+    let columnName = "";
+
+    if (selectedType == "Occurrences") {
+      columnName = 'wordsCount';
+    } else {
+      columnName = 'qtdMeetings';
+    }
     
-    //analysing category
+    //analysing category 
     this._filtredDataset.forEach((element:any) =>{
       let yearIndex = element.date.getFullYear() - yearRange[0].getFullYear();
+      let value = element[columnName];
+
       if (element.category == this.allCategory[0]){ //Africa
         if (reorganizedDatabase[0][yearIndex]){
-          reorganizedDatabase[0][yearIndex].push(element);
-          reorganizedDatabase[0][yearIndex].count += element.countedWords.total;
+          reorganizedDatabase[0][yearIndex] += value;
         } else{
-          reorganizedDatabase[0][yearIndex] = [element];
-          reorganizedDatabase[0][yearIndex].count = element.countedWords.total;
+          reorganizedDatabase[0][yearIndex] = value;
         }
         //loop in all Africa subcategories until find the one
         for (let index = 1; index <= 33; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex].push(element);
-              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] += value;
             } else{
-              reorganizedDatabase[index][yearIndex] = [element];
-              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = value;
             }
+            index = 34; //Break Loop;
+          } else if (index == 1 && element.sucategory == "Africa"){ //Special Case
+            if (reorganizedDatabase[index][yearIndex]){
+              reorganizedDatabase[index][yearIndex] += value;
+            } else{
+              reorganizedDatabase[index][yearIndex] = value;
+            }
+            index = 34; //Break Loop;
           }
         }
       }else if(element.category == this.allCategory[34]){//Americas
         if (reorganizedDatabase[34][yearIndex]){
-          reorganizedDatabase[34][yearIndex].push(element);
-          reorganizedDatabase[34][yearIndex].count += element.countedWords.total;
+          reorganizedDatabase[34][yearIndex] += value;
         } else{
-          reorganizedDatabase[34][yearIndex] = [element];
-          reorganizedDatabase[34][yearIndex].count = element.countedWords.total;
+          reorganizedDatabase[34][yearIndex] = value;
         }
         //loop in all Americas subcategories until find the one
         for (let index = 35; index <= 42; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex].push(element);
-              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] += value;
             } else{
-              reorganizedDatabase[index][yearIndex] = [element];
-              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = value;
             }
+            index = 43; //Break Loop;
           }
         }
       }else if(element.category == this.allCategory[43]){//Asia
         if (reorganizedDatabase[43][yearIndex]){
-          reorganizedDatabase[43][yearIndex].push(element);
-          reorganizedDatabase[43][yearIndex].count += element.countedWords.total;
+          reorganizedDatabase[43][yearIndex] += value;
         } else{
-          reorganizedDatabase[43][yearIndex] = [element];
-          reorganizedDatabase[43][yearIndex].count = element.countedWords.total;
+          reorganizedDatabase[43][yearIndex] = value;
         }
         //loop in all Asia subcategories
         for (let index = 44; index <= 52; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex].push(element);
-              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] += value;
             } else{
-              reorganizedDatabase[index][yearIndex] = [element];
-              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = value;
             }
+            index = 53; //Break Loop;
           }
         }
       }else if(element.category == this.allCategory[53]){//Europe
         if (reorganizedDatabase[53][yearIndex]){
-          reorganizedDatabase[53][yearIndex].push(element);
-          reorganizedDatabase[53][yearIndex].count += element.countedWords.total;
+          reorganizedDatabase[53][yearIndex] += value;
         } else{
-          reorganizedDatabase[53][yearIndex] = [element];
-          reorganizedDatabase[53][yearIndex].count = element.countedWords.total;
+          reorganizedDatabase[53][yearIndex] = value;
         }
         //loop in all Europe subcategories
         for (let index = 54; index <= 66; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex].push(element);
-              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] += value;
             } else{
-              reorganizedDatabase[index][yearIndex] = [element];
-              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = value;
             }
+            index = 67; //Break Loop;
           }
         }
       }else if(element.category == this.allCategory[67]){ //Middle East
         if (reorganizedDatabase[67][yearIndex]){
-          reorganizedDatabase[67][yearIndex].push(element);
-          reorganizedDatabase[67][yearIndex].count += element.countedWords.total;
+          reorganizedDatabase[67][yearIndex] += value;
         } else{
-          reorganizedDatabase[67][yearIndex] = [element];
-          reorganizedDatabase[67][yearIndex].count = element.countedWords.total;
+          reorganizedDatabase[67][yearIndex] = value;
         }
         //loop in all Middle East subcategories
         for (let index = 68; index <= 77; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex].push(element);
-              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] += value;
             } else{
-              reorganizedDatabase[index][yearIndex] = [element];
-              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = value;
             }
+            index = 78; //Break Loop;
+          } else if (index == 75 && element.sucategory == "Middle East"){ //Special Case
+            if (reorganizedDatabase[index][yearIndex]){
+              reorganizedDatabase[index][yearIndex] += value;
+            } else{
+              reorganizedDatabase[index][yearIndex] = value;
+            }
+            index = 78; //Break Loop
           }
         }
       }else{ //Thematic
         if (reorganizedDatabase[78][yearIndex]){
-          reorganizedDatabase[78][yearIndex].push(element);
-          reorganizedDatabase[78][yearIndex].count += element.countedWords.total;
+          reorganizedDatabase[78][yearIndex] += value;
         } else{
-          reorganizedDatabase[78][yearIndex] = [element];
-          reorganizedDatabase[78][yearIndex].count = element.countedWords.total;
+          reorganizedDatabase[78][yearIndex] = value;
         }
         //loop in all Thematic subcategories
         for (let index = 79; index <= 104; index++) {
           if (element.sucategory == this.allCategory[index]) {
             if (reorganizedDatabase[index][yearIndex]){
-              reorganizedDatabase[index][yearIndex].push(element);
-              reorganizedDatabase[index][yearIndex].count += element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] += value;
             } else{
-              reorganizedDatabase[index][yearIndex] = [element];
-              reorganizedDatabase[index][yearIndex].count = element.countedWords.total;
+              reorganizedDatabase[index][yearIndex] = value;
             }
+            index = 105; //Break Loop;
           }
         }
       }
@@ -271,42 +301,157 @@ export class CsvManagerService {
     this._filtredDataset = reorganizedDatabase;
   }
 
+  //!TROCAR O NOME DA FUNCAO
+  private teste(yearRange: Array<Date>){
+    let qtdYears = +yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1;
+    let reorganizedDatabase = [...Array(105)].map(e => {return [...Array(qtdYears)]});
+
+    //analysing category 
+    this._filtredSpeechsDataset.forEach((element:any) =>{
+      let yearIndex = element.date.getFullYear() - yearRange[0].getFullYear();
+      if (element.category == this.allCategory[0]){ //Africa
+        if (reorganizedDatabase[0][yearIndex]){
+          reorganizedDatabase[0][yearIndex].push(element);
+        } else{
+          reorganizedDatabase[0][yearIndex] = [element];
+        }
+        //loop in all Africa subcategories until find the one
+        for (let index = 1; index <= 33; index++) {
+          if (element.sucategory == this.allCategory[index]) {
+            if (reorganizedDatabase[index][yearIndex]){
+              reorganizedDatabase[index][yearIndex].push(element);
+            } else{
+              reorganizedDatabase[index][yearIndex] = [element];
+            }
+          }
+        }
+      }else if(element.category == this.allCategory[34]){//Americas
+        if (reorganizedDatabase[34][yearIndex]){
+          reorganizedDatabase[34][yearIndex].push(element);
+        } else{
+          reorganizedDatabase[34][yearIndex] = [element];
+        }
+        //loop in all Americas subcategories until find the one
+        for (let index = 35; index <= 42; index++) {
+          if (element.sucategory == this.allCategory[index]) {
+            if (reorganizedDatabase[index][yearIndex]){
+              reorganizedDatabase[index][yearIndex].push(element);
+            } else{
+              reorganizedDatabase[index][yearIndex] = [element];
+            }
+          }
+        }
+      }else if(element.category == this.allCategory[43]){//Asia
+        if (reorganizedDatabase[43][yearIndex]){
+          reorganizedDatabase[43][yearIndex].push(element);
+        } else{
+          reorganizedDatabase[43][yearIndex] = [element];
+        }
+        //loop in all Asia subcategories
+        for (let index = 44; index <= 52; index++) {
+          if (element.sucategory == this.allCategory[index]) {
+            if (reorganizedDatabase[index][yearIndex]){
+              reorganizedDatabase[index][yearIndex].push(element);
+            } else{
+              reorganizedDatabase[index][yearIndex] = [element];
+            }
+          }
+        }
+      }else if(element.category == this.allCategory[53]){//Europe
+        if (reorganizedDatabase[53][yearIndex]){
+          reorganizedDatabase[53][yearIndex].push(element);
+        } else{
+          reorganizedDatabase[53][yearIndex] = [element];
+        }
+        //loop in all Europe subcategories
+        for (let index = 54; index <= 66; index++) {
+          if (element.sucategory == this.allCategory[index]) {
+            if (reorganizedDatabase[index][yearIndex]){
+              reorganizedDatabase[index][yearIndex].push(element);
+            } else{
+              reorganizedDatabase[index][yearIndex] = [element];
+            }
+          }
+        }
+      }else if(element.category == this.allCategory[67]){ //Middle East
+        if (reorganizedDatabase[67][yearIndex]){
+          reorganizedDatabase[67][yearIndex].push(element);
+        } else{
+          reorganizedDatabase[67][yearIndex] = [element];
+        }
+        //loop in all Middle East subcategories
+        for (let index = 68; index <= 77; index++) {
+          if (element.sucategory == this.allCategory[index]) {
+            if (reorganizedDatabase[index][yearIndex]){
+              reorganizedDatabase[index][yearIndex].push(element);
+            } else{
+              reorganizedDatabase[index][yearIndex] = [element];
+            }
+          }
+        }
+      }else{ //Thematic
+        if (reorganizedDatabase[78][yearIndex]){
+          reorganizedDatabase[78][yearIndex].push(element);
+        } else{
+          reorganizedDatabase[78][yearIndex] = [element];
+        }
+        //loop in all Thematic subcategories
+        for (let index = 79; index <= 104; index++) {
+          if (element.sucategory == this.allCategory[index]) {
+            if (reorganizedDatabase[index][yearIndex]){
+              reorganizedDatabase[index][yearIndex].push(element);
+            } else{
+              reorganizedDatabase[index][yearIndex] = [element];
+            }
+          }
+        }
+      }
+    });
+    this._filtredSpeechsDataset = reorganizedDatabase;
+  }
+  
+
   downloadCsv() {
     d3.csv('../assets/Database/unsc_2022_beta.csv', this.rowRemover).then(
       (data:any) => {
         this._originalDataset = data;
-        /*
-        let teste = data.filter((value: any, index: any, self: any) => {
-          return value.qtd > 0.2;
-        });
-        console.log(teste);
-        */
+      }
+    );
+
+    d3.csv('../assets/Database/unsc_meetings_freq.csv', this.rowRemover2).then(
+      (data:any) => {
+        this._initFreqDataset = data;
       }
     );
   }
   
   //Att dataset by passed Categories
   attVisibleDataset(categories: any){
-    let reducedArray = [];
+    let reducedFiltredDataset = [];
+    let reducedSpeechsDataset = [];
     
     for (let index = 0; index < categories.length; index++) {
       let indexArray = this.allCategory.findIndex((element) => element === categories[index]);
-      reducedArray.push(this._filtredDataset[indexArray]);
+      reducedFiltredDataset.push(this._filtredDataset[indexArray]);
+      reducedSpeechsDataset.push(this._filtredSpeechsDataset[indexArray])
     }
-    this._visibleDataset = reducedArray;
+    this._visibleDataset = reducedFiltredDataset;
+    this._visibleSpeechDataset = reducedSpeechsDataset;
   }
 
   //Make search based on input filters
-  makeSearch(categories: any, yearRange: Array<Date>, searchedWords: any){
+  makeSearch(selectedType: any, categories: any, yearRange: Array<Date>, searchedWords: any){
 
-    //Filter By Year
     let initYear = yearRange[0];
     let finalYear = yearRange[1];
 
+    if (selectedType == "Occurrences"){
+    
+    //Filter By Year
     this._filtredDataset = this._originalDataset.filter((element: any) => {
       return element.date >= initYear && element.date <= finalYear;
     });
-
+    
     //Counting searched words
     this._filtredDataset.map((object: any, index: any, array: any) => {
       let text = object.text.split(" ");
@@ -325,37 +470,54 @@ export class CsvManagerService {
         return accumulator;
       }, countObject);
 
-      object.countedWords = countObject;
+      object.wordsCount = countObject['total'];
       return object;
     });
 
     this._filtredDataset = this._filtredDataset.filter((element: any) => {
-      return element.countedWords.total > 0;
+      return element.wordsCount > 0;
     });
-    this.reorganizeArray(yearRange);
+
+    this._filtredSpeechsDataset = [...this._filtredDataset];
+
+    }  else{
+      //Filter By Year
+      this._filtredDataset = this._initFreqDataset.filter((element: any) => {
+        return element.date >= initYear && element.date <= finalYear;
+      });
+
+      this._filtredSpeechsDataset = this._originalDataset.filter((element: any) => {
+        return element.date >= initYear && element.date <= finalYear;
+      });
+    }
+    this.reorganizeArray(selectedType, yearRange);
+    this.teste(yearRange);
+    console.log(this._filtredDataset);
+    console.log(this._filtredSpeechsDataset);
     this.attVisibleDataset(categories);
   }
 
   getCellValue(indexLine: number, indexColumn: number){
     if (this._visibleDataset[indexLine][indexColumn]) {
-      return this._visibleDataset[indexLine][indexColumn].count;
+      return this._visibleDataset[indexLine][indexColumn];  //!TIREI UM COUNT DAQUI
     }
     return undefined;
   }
 
   getCellSpeechs(indexLine: number, indexColumn: number){
-    if (this._visibleDataset[indexLine][indexColumn]) {
-      return this._visibleDataset[indexLine][indexColumn];
+    if (this._visibleSpeechDataset[indexLine][indexColumn]) {
+      return this._visibleSpeechDataset[indexLine][indexColumn];
     }
     return [];
   }
 
   getMaxValue(): number{
     let maxValue = Number.MIN_SAFE_INTEGER;
+
     for (let indexLine = 0; indexLine < this._filtredDataset.length; indexLine++) {
       for (let indexColumn = 0; indexColumn < this._filtredDataset[indexLine].length; indexColumn++) {
         if (this._filtredDataset[indexLine][indexColumn]) {
-          let actualValue = this._filtredDataset[indexLine][indexColumn].count;
+          let actualValue = this._filtredDataset[indexLine][indexColumn]; //!TIREI UM COUNT DAQUI
           if (actualValue != undefined && actualValue > maxValue) {
             maxValue = actualValue;
           }

@@ -288,6 +288,8 @@ export class DrawHeatmapService {
     this._ctx.save();
     this._ctx.translate(this._categoryWidth, 0);
 
+    
+
     for (let indexLine = 0; indexLine < dataset.length; indexLine++) {
       for (
         let indexColumn = 0;
@@ -296,7 +298,7 @@ export class DrawHeatmapService {
       ) {
         let value = undefined;
         if (dataset[indexLine][indexColumn]) {
-          value = dataset[indexLine][indexColumn].count;
+          value = dataset[indexLine][indexColumn]; //!TIREI O COUNT DAQUI
         }
         this._ctx.fillStyle = this.ScaleControlService.colorInScale(value);
         this._ctx.fillRect(

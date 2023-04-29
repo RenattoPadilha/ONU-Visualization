@@ -30,9 +30,7 @@ export class FilterWindowComponent implements OnInit {
   _selectedWords: string;
 
   submit() {
-    console.log(this._lowerYear);
-    console.log(this._higherYear);
-    let isValid = this.ServiceCommunicationService.attFilters(
+      let isValid = this.ServiceCommunicationService.attFilters(
       this._selectedType,
       [this._lowerYear, this._higherYear],
       this._selectedWords

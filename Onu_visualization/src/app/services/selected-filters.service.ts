@@ -52,10 +52,12 @@ export class SelectedFiltersService {
   }
 
   inputValidation(selectedType: string, yearRange: Date[], selectedWords: any) : boolean{
-    if (selectedType === "Occurrences" || selectedType === "Sentiment")
-      if (yearRange[0] >= new Date ("01/01/1992") || yearRange[1] < new Date ("01/01/2023")) 
-        if(selectedWords.length > 0)
+    if (yearRange[0] >= new Date ("01/01/1992") || yearRange[1] < new Date ("01/01/2023")) {
+      if (selectedType === "Occurrences" && selectedWords.length > 0)
           return true;
+      if (selectedType === "Sentiment" || selectedType === "Meetings")
+        return true;
+    }
     return false;
   }
 }
