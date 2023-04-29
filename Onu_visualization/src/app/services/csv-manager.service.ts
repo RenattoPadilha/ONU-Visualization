@@ -130,9 +130,10 @@ export class CsvManagerService {
     'Threats To International Peace And Security',
     'Women And Peace And Security',
   ];
-
+  //!PROBLEMA COM NEGATIVE, POSITIVE, POSITIVE_SHARE E NEGATIVE SHARE
   private rowRemover(row: any) {
     return {
+      id: row.speech_id,
       agenda: row.agenda_info, //agenda_info - UN Official Agenda
       category: row.agenda_item1, //category
       sucategory: row.agenda_item_manual, //subcategory
@@ -141,7 +142,12 @@ export class CsvManagerService {
       speaker: row.speaker, //name of representative
       url: row.url, //speech url on ONU website
       text: row.content, //transcribed text
-      countedWords : [],
+      posshare: +row.posshare,
+      negshare: +row.negshare,
+      qtdSovereignty: +row.sovereignty,
+      percSovereignty: +row.sovereignty_share,
+      qtdHumanAssist: +row.humanitarian_assistance,
+      percHumanAssist: +row.humanitarian_assistance_share,
     };
   } 
 
@@ -158,8 +164,8 @@ export class CsvManagerService {
       negshare: +row.negshare,
       qtdSovereignty: +row.sovereignty,
       percSovereignty: +row.sovereignty_perc,
-      qtdAssistance: +row.humanitarian_assistance,
-      percAssistance: +row.humanitarian_assistance_perc,
+      qtdHumanAssist: +row.humanitarian_assistance,
+      percHumanAssist: +row.humanitarian_assistance_perc,
     };
   }
 
@@ -171,8 +177,10 @@ export class CsvManagerService {
 
     if (selectedType == "Occurrences") {
       columnName = 'wordsCount';
-    } else {
+    } else if (selectedType == "Meetings"){
       columnName = 'qtdMeetings';
+    } else if (selectedType == "Speechs"){
+      columnName = 'qtdSpeeches';
     }
     
     //analysing category 
@@ -412,12 +420,16 @@ export class CsvManagerService {
   
 
   downloadCsv() {
-    d3.csv('../assets/Database/unsc_2022_beta.csv', this.rowRemover).then(
+    d3.dsv(";", '../assets/Database/unsc_2022_beta.csv').then(
       (data:any) => {
-        this._originalDataset = data;
+        this._originalDataset = data.map(this.rowRemover);
+        /*
+        console.log(data[0]);
+        console.log(this._originalDataset[0]);
+        */
       }
     );
-
+    
     d3.csv('../assets/Database/unsc_meetings_freq.csv', this.rowRemover2).then(
       (data:any) => {
         this._initFreqDataset = data;
@@ -480,7 +492,7 @@ export class CsvManagerService {
 
     this._filtredSpeechsDataset = [...this._filtredDataset];
 
-    }  else{
+    }  else{ //Speechs, Meetings
       //Filter By Year
       this._filtredDataset = this._initFreqDataset.filter((element: any) => {
         return element.date >= initYear && element.date <= finalYear;
@@ -490,11 +502,11 @@ export class CsvManagerService {
         return element.date >= initYear && element.date <= finalYear;
       });
     }
+
     this.reorganizeArray(selectedType, yearRange);
     this.teste(yearRange);
-    console.log(this._filtredDataset);
-    console.log(this._filtredSpeechsDataset);
     this.attVisibleDataset(categories);
+    console.log(this._visibleDataset);
   }
 
   getCellValue(indexLine: number, indexColumn: number){
