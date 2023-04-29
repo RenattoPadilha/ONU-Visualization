@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { SelectedFiltersService } from './selected-filters.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpeechsControlServiceService {
 
-  constructor() { }
+  constructor(private SelectedFiltersService: SelectedFiltersService) { }
 
   private messageSource = new BehaviorSubject<any>([]);
   currentMessage = this.messageSource.asObservable();
@@ -37,14 +38,20 @@ export class SpeechsControlServiceService {
   }
 
   private sortByQuantity(isAscendingOrder : boolean){
+    let selectedType = this.SelectedFiltersService.selectedType;
+    let columnName = "";
     let actualSpeechs = this.messageSource.value;
     let sortedSpeechs;
     let sortFunction;
+    
+    if (selectedType == "Occurrences") {
+      columnName = 'wordsCount';
+    } 
       
     if (isAscendingOrder){
-      sortFunction = (a: any, b: any) => a.countedWords.total - b.countedWords.total;
+      sortFunction = (a: any, b: any) => a[columnName] - b[columnName];
     } else{
-      sortFunction = (a: any, b: any) => b.countedWords.total - a.countedWords.total;
+      sortFunction = (a: any, b: any) => b[columnName] - a[columnName];
     }
 
     sortedSpeechs = actualSpeechs.sort(sortFunction);

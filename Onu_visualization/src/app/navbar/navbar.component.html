@@ -27,10 +27,12 @@
         >Chronological Order</mat-radio-button>
       <mat-radio-button class="radio-options" value="1"
         >Reverse Chronological Order</mat-radio-button>
-      <mat-radio-button class="radio-options" value="2"
+      <ng-template [ngIf] = "quantitySortOn">        
+        <mat-radio-button class="radio-options" value="2"
         >Ascending Order</mat-radio-button>
-      <mat-radio-button class="radio-options" value="3"
+        <mat-radio-button class="radio-options" value="3"
         >Descending Order</mat-radio-button>
+      </ng-template>
     </mat-radio-group>
   </mat-expansion-panel>
 </div>

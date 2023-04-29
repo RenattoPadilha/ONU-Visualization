@@ -1,7 +1,7 @@
 <div class="speech-bar">
   <mat-card class="card" *ngFor="let speech of data">
     <mat-card-header>
-      <mat-card-title class="speech-title">Without Name Yet</mat-card-title>
+      <mat-card-title class="speech-title">{{speech.id}}</mat-card-title>
       <mat-card-subtitle class="speech-date">{{
         speech.date.toLocaleDateString()
       }}</mat-card-subtitle>

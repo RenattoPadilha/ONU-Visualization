@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,8 @@ export class SelectedFiltersService {
   private _selectedType: string;
   private _selectedYears : Array<Date>;
   private _selectedWords : any;
+  private messageSource = new BehaviorSubject<any>([]);
+  currentMessage = this.messageSource.asObservable(); //selected type for sort dropdown (navbar component)
 
   constructor() { 
     this._selectedType  = "Occurrences";
@@ -31,6 +34,7 @@ export class SelectedFiltersService {
   }
   
   set selectedType(newValue : string){
+    this.messageSource.next(newValue);
     this._selectedType = newValue;
   }
 
