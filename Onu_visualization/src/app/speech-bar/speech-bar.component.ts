@@ -27,7 +27,7 @@ export class SpeechBarComponent implements OnInit {
         this.textPt1 = "Searched words: ";
         this.columnName = 'wordsCount';
         this.textPt2 = " occurrences";
-      } else { //meetings, speechs, words
+      } else { //meetings, speechs, words, resolutions
         this.textPt1 = "";
         this.columnName = '';
         this.textPt2 = "";

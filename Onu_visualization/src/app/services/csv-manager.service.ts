@@ -183,6 +183,8 @@ export class CsvManagerService {
       columnName = 'qtdSpeeches';
     } else if (selectedType == "Words"){
       columnName = 'qtdWords';
+    } else if (selectedType == "Resolutions"){
+      columnName = 'qtdResolutions';
     }
     
     //analysing category 
