@@ -179,8 +179,10 @@ export class CsvManagerService {
       columnName = 'wordsCount';
     } else if (selectedType == "Meetings"){
       columnName = 'qtdMeetings';
-    } else if (selectedType == "Speechs"){
+    } else if (selectedType == "Speeches"){
       columnName = 'qtdSpeeches';
+    } else if (selectedType == "Words"){
+      columnName = 'qtdWords';
     }
     
     //analysing category 

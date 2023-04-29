@@ -55,7 +55,7 @@ export class SelectedFiltersService {
     if (yearRange[0] >= new Date ("01/01/1992") || yearRange[1] < new Date ("01/01/2023")) {
       if (selectedType === "Occurrences" && selectedWords.length > 0)
           return true;
-      if (selectedType === "Sentiment" || selectedType === "Meetings" || selectedType === "Speeches")
+      if (selectedType === "Sentiment" || selectedType === "Meetings" || selectedType === "Speeches" || selectedType === "Words")
         return true;
     }
     return false;
