@@ -455,13 +455,13 @@ export class CsvManagerService {
   
 
   downloadCsv() {
-    d3.dsv(";", '../assets/Database/unsc_2022_beta.csv').then(
+    d3.dsv(";", 'https://media.githubusercontent.com/media/RenattoPadilha/ONU-Visualization-Databases/main/unsc_2022_beta.csv').then(
       (data:any) => {
         this._originalDataset = data.map(this.rowRemover);
       }
     );
     
-    d3.csv('../assets/Database/unsc_meetings_freq.csv', this.rowRemover2).then(
+    d3.csv('https://media.githubusercontent.com/media/RenattoPadilha/ONU-Visualization-Databases/main/unsc_meetings_freq.csv', this.rowRemover2).then(
       (data:any) => {
         this._initFreqDataset = data;
       }
