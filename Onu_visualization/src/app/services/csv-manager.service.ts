@@ -187,6 +187,8 @@ export class CsvManagerService {
       columnName = 'qtdResolutions';
     } else if(selectedType == "Sovereignty"){
       columnName = 'qtdSovereignty';
+    } else if (selectedType == "HumanAssist"){
+      columnName = 'qtdHumanAssist';
     }
     
     //analysing category 
@@ -462,6 +464,15 @@ export class CsvManagerService {
 
     let initYear = yearRange[0];
     let finalYear = yearRange[1];
+    let columnName = "";
+
+    if(selectedType == "Occurrences"){
+      columnName = 'wordsCount';
+    }else if(selectedType == "Sovereignty"){
+      columnName = 'qtdSovereignty';
+    } else if (selectedType == "HumanAssist"){
+      columnName = 'qtdHumanAssist';
+    }
 
     if (selectedType == "Occurrences"){
     
@@ -492,10 +503,6 @@ export class CsvManagerService {
       return object;
     });
 
-    this._filtredDataset = this._filtredDataset.filter((element: any) => {
-      return element.wordsCount > 0;
-    });
-
     this._filtredSpeechsDataset = [...this._filtredDataset];
 
     }  else{ //Speechs, Meetings
@@ -507,13 +514,12 @@ export class CsvManagerService {
       this._filtredSpeechsDataset = this._originalDataset.filter((element: any) => {
         return element.date >= initYear && element.date <= finalYear;
       });
+    }
 
-      if (selectedType == "Sovereignty"){
-        this._filtredSpeechsDataset = this._filtredSpeechsDataset.filter((element: any) => {
-          return element.qtdSovereignty > 0;
-        });
-      }
-
+    if (selectedType == "Sovereignty" || selectedType == "HumanAssist" || selectedType == "Occurrences"){
+      this._filtredSpeechsDataset = this._filtredSpeechsDataset.filter((element: any) => {
+        return element[columnName] > 0;
+      });
     }
 
     this.reorganizeArray(selectedType, yearRange);

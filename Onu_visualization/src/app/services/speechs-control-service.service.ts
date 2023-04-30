@@ -48,6 +48,8 @@ export class SpeechsControlServiceService {
       columnName = 'wordsCount';
     } else if (selectedType == "Sovereignty"){
       columnName = 'qtdSovereignty';
+    } else if (selectedType == "HumanAssist"){
+      columnName = 'qtdHumanAssist';
     }
       
     if (isAscendingOrder){
