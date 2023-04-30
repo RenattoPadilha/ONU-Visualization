@@ -46,7 +46,9 @@ export class SpeechsControlServiceService {
     
     if (selectedType == "Occurrences") {
       columnName = 'wordsCount';
-    } 
+    } else if (selectedType == "Sovereignty"){
+      columnName = 'qtdSovereignty';
+    }
       
     if (isAscendingOrder){
       sortFunction = (a: any, b: any) => a[columnName] - b[columnName];

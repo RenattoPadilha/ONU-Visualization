@@ -185,6 +185,8 @@ export class CsvManagerService {
       columnName = 'qtdWords';
     } else if (selectedType == "Resolutions"){
       columnName = 'qtdResolutions';
+    } else if(selectedType == "Sovereignty"){
+      columnName = 'qtdSovereignty';
     }
     
     //analysing category 
@@ -505,12 +507,18 @@ export class CsvManagerService {
       this._filtredSpeechsDataset = this._originalDataset.filter((element: any) => {
         return element.date >= initYear && element.date <= finalYear;
       });
+
+      if (selectedType == "Sovereignty"){
+        this._filtredSpeechsDataset = this._filtredSpeechsDataset.filter((element: any) => {
+          return element.qtdSovereignty > 0;
+        });
+      }
+
     }
 
     this.reorganizeArray(selectedType, yearRange);
     this.teste(yearRange);
     this.attVisibleDataset(categories);
-    console.log(this._visibleDataset);
   }
 
   getCellValue(indexLine: number, indexColumn: number){

@@ -20,14 +20,18 @@ export class SpeechBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.SpeechsControlServiceService.currentMessage.subscribe((message) => {
-      this.data = message; //<= Always get current value!
+      this.data = message; //<= Always get current value! 
 
       let selectedType = this.SelectedFiltersService.selectedType;
       if (selectedType == 'Occurrences') {
         this.textPt1 = "Searched words: ";
         this.columnName = 'wordsCount';
         this.textPt2 = " occurrences";
-      } else { //meetings, speechs, words, resolutions
+      } else if(selectedType == 'Sovereignty'){
+        this.textPt1 = "Citations: ";
+        this.columnName = 'qtdSovereignty';
+        this.textPt2 = " times";
+      }else { //meetings, speechs, words, resolutions
         this.textPt1 = "";
         this.columnName = '';
         this.textPt2 = "";
