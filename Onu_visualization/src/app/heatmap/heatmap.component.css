@@ -19,5 +19,5 @@
   pointer-events: none;
   text-align: center;
   transform: translateY(-100%);
-  
+  z-index: 2;
 }

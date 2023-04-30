@@ -46,9 +46,10 @@ export class HeatmapComponent implements OnInit {
 
     //Check if value isnt 0, if not, tooltip is disabled
     if (hoverWindowInfo.tooltipOn && hoverWindowInfo.value > 0) {
+      let prettyNumber = (hoverWindowInfo.value).toLocaleString('en-US');
       this.tooltipX = event.clientX + 'px';
       this.tooltipY = event.clientY + 'px';
-      this.value = hoverWindowInfo.value;
+      this.value = prettyNumber + hoverWindowInfo.unit;
       this.isTooltipOn = true;
     } else {
       this.isTooltipOn = false;

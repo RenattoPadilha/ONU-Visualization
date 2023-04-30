@@ -36,6 +36,7 @@ export class ServiceCommunicationService {
     let timelineHigherPoint = this.DrawHeatmapService.timelineHigherPoint;
     let isDrawedBefore = this.DrawHeatmapService.isDrawedBefore;
     
+    
     //Check if canvas was drawed, if not, tooltip is disabled
     if (isDrawedBefore) {
       //check if is a heatmap celule, if not, tooltip is disabled
@@ -44,11 +45,34 @@ export class ServiceCommunicationService {
 
         let selectedIndexX = Math.floor(yPosition / lineHeight);
         let selectedIndexY = Math.floor(heatmapOffset / yearWidth);
+        let selectedType = this.SelectedFiltersService.selectedType;
         let newValue = this.CsvManagerService.getCellValue(selectedIndexX,selectedIndexY);
+
+        let unit = "";
+        if (selectedType == "Occurrences") {
+          unit = " occurrences";
+        } else if (selectedType == "Meetings"){
+          unit = " meetings";
+        } else if (selectedType == "Speeches"){
+          unit = " speeches";
+        } else if (selectedType == "Words"){
+          unit = " words";
+        } else if (selectedType == "Resolutions"){
+          unit = " resolutions";
+        } else if(selectedType == "Sovereignty"){
+          unit = " citations";
+        } else if (selectedType == "HumanAssist"){
+          unit = " citations";
+        } else if (selectedType == "SovereigntyPerc"){
+          unit = " %";
+        } else if (selectedType == "HumanAssistPerc"){
+          unit = " %";
+        }
 
         return {
           tooltipOn: true,
-          value: newValue
+          value: newValue,
+          unit: unit
         }
       }
     }
@@ -122,6 +146,7 @@ export class ServiceCommunicationService {
   }
 
   handleSearch(){
+    this.SpeechsControlServiceService.attSpeechs([]);
     let actualCategories = this.CategoriesControlService.categories;
     let selectedType = this.SelectedFiltersService.selectedType;
     let yearRange = this.SelectedFiltersService.selectedYears;

@@ -22,29 +22,6 @@ export class ScaleControlService {
     this._scaleName = scaleName;
   }
 
-  
-  drawScale() {
-    let qtdColors = 256;
-    let colors: string[];
-    let canvas: any;
-
-    const interpolate = (d3 as any)[`interpolate${this._scaleName}`];
-    colors = [];
-
-    for (let i = 0; i < qtdColors; ++i) {
-      colors.push(d3.rgb(interpolate(i / (qtdColors - 1))).formatHex());
-    }
-    canvas = d3.select("canvas").node();
-    const context: any = canvas.getContext("2d");
-    const barHeight = canvas.height;
-
-
-    for (let i = 0; i < qtdColors; i++) {
-      context.fillStyle = colors[i];
-      context.fillRect(i, 0, canvas.width, barHeight);
-    }
-  }
-
   colorInScale(value: number): string {
     if (!value || value == 0) {
       return '#BEBEBE';
@@ -99,8 +76,8 @@ export class ScaleControlService {
   let heightString = svg.style("height"); 
 
   let width = ((widthString.length > 2) ? Number( widthString.substring( 0, widthString.length - 2 ) ) : 0 ) - marginLeft - marginRight;
-  let height = ((heightString.length > 2) ? Number( heightString.substring( 0, heightString.length - 2 ) ) : 0)*4/5 + tickSize;
-  let marginBottom = ((heightString.length > 2) ? Number( heightString.substring( 0, heightString.length - 2 ) ) : 0)*1/5 + tickSize;
+  let height = ((heightString.length > 2) ? Number( heightString.substring( 0, heightString.length - 2 ) ) : 0)*7/10 + tickSize;
+  let marginBottom = ((heightString.length > 2) ? Number( heightString.substring( 0, heightString.length - 2 ) ) : 0)*3/10 + tickSize;
 
   const ticks = width / 64;
 
