@@ -63,10 +63,8 @@ export class ServiceCommunicationService {
           unit = " citations";
         } else if (selectedType == "HumanAssist"){
           unit = " citations";
-        } else if (selectedType == "SovereigntyPerc"){
-          unit = " %";
-        } else if (selectedType == "HumanAssistPerc"){
-          unit = " %";
+        } else if (selectedType == "SovereigntyPerc" || selectedType == "HumanAssistPerc" || selectedType == "SentimentPos"){
+          unit = "%";
         }
 
         return {
@@ -153,10 +151,10 @@ export class ServiceCommunicationService {
     let selectedWords = this.SelectedFiltersService.selectedWords;
 
     //[["the", 0], ["i", 0], ["total", 0]]
-    this.CsvManagerService.makeSearch(selectedType, actualCategories, yearRange, selectedWords); //!DANGER SELECTED TYPE NAO E SUPORTADO
-    let dataset = this.CsvManagerService.visibleDataset;  //!DANGER POSSIVEL ERRO DE DATASET DEVE SER EVITADO
-    let maxValue = this.CsvManagerService.getMaxValue();  //!DANGER POSSIVEL ERRO DE DATASET DEVE SER EVITADO
-    this.ScaleControlService.attScale("Purples", 0, maxValue);  //!DANGER SELECTED TYPE NAO E SUPORTADO
+    this.CsvManagerService.makeSearch(selectedType, actualCategories, yearRange, selectedWords);
+    let dataset = this.CsvManagerService.visibleDataset;
+    let maxValue = this.CsvManagerService.getMaxValue();
+    this.ScaleControlService.attScale("Purples", 0, maxValue);
 
     this.DrawHeatmapService.isDrawedBefore = true;
     this.DrawHeatmapService.drawCanvas(yearRange, actualCategories, dataset);

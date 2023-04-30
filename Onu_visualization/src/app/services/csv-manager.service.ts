@@ -7,14 +7,14 @@ import * as d3 from 'd3';
 export class CsvManagerService {
   constructor() {}
 
-  private _originalDataset: any; // CSV completo //! Talvez precise trocar o nome para deixar mais claro que eh o dataset completo com texto
-  private _initFreqDataset: any; // CSV de frequencia completo
+  private _originalDataset: any; // CSV de discursos completo (Unsc_2022_beta.csv)
+  private _initFreqDataset: any; // CSV de frequencia completo (Unsc_meetings_freq.csv)
 
-  private _filtredSpeechsDataset: any;
-  private _filtredDataset: any; //  CSV Filtrado //! Talvez precise trocar o nome para deixar mais claro que eh o dataset completo com texto
+  private _filtredSpeechsDataset: any; //Array da Pesquisa (Unsc_2022_beta.csv)
+  private _filtredDataset: any; //  Array da Pesquisa (Unsc_meetings_freq.csv)
   
   private _visibleSpeechDataset: any
-  private _visibleDataset: any; //  Array de Numero de Ocorrencias //! N vai ser so de ocorrencia
+  private _visibleDataset: any; //  Array do que esta sendo visto pelo usuario
 
   private lowerYear: any; //actually 1992
   private higherYear: any; //actually 2022
@@ -130,7 +130,6 @@ export class CsvManagerService {
     'Threats To International Peace And Security',
     'Women And Peace And Security',
   ];
-  //!PROBLEMA COM NEGATIVE, POSITIVE, POSITIVE_SHARE E NEGATIVE SHARE
   private rowRemover(row: any) {
 
     let newPosShare = parseFloat(row.positive_share.replace(/,/g, '.'));
@@ -175,7 +174,6 @@ export class CsvManagerService {
     };
   }
 
-  //!TROCAR O NOME DA FUNCAO
   private reorganizeArray(selectedType:any, yearRange: Array<Date>){
     let qtdYears = +yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1;
     let reorganizedDatabase = [...Array(105)].map(e => {return [...Array(qtdYears)]});
@@ -202,7 +200,11 @@ export class CsvManagerService {
     } else if (selectedType == "HumanAssistPerc"){
       columnName = 'percHumanAssist';
       isPercentage = true;
+    } else if (selectedType == "SentimentPos"){
+      columnName = 'posshare';
+      isPercentage = true;
     }
+
     //analysing category 
     this._filtredDataset.forEach((element:any) =>{
       let yearIndex = element.date.getFullYear() - yearRange[0].getFullYear();
@@ -340,8 +342,7 @@ export class CsvManagerService {
     this._filtredDataset = reorganizedDatabase;
   }
 
-  //!TROCAR O NOME DA FUNCAO
-  private teste(yearRange: Array<Date>){
+  private reorganizeSpeeches(yearRange: Array<Date>){
     let qtdYears = +yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1;
     let reorganizedDatabase = [...Array(105)].map(e => {return [...Array(qtdYears)]});
 
@@ -499,6 +500,8 @@ export class CsvManagerService {
       columnName = 'percSovereignty';
     } else if (selectedType == "HumanAssistPerc"){
       columnName = 'percHumanAssist';
+    } else if (selectedType == "SentimentPos"){
+      columnName = 'posshare';
     }
  
     if (selectedType == "Occurrences"){
@@ -550,7 +553,7 @@ export class CsvManagerService {
       });
     }
     this.reorganizeArray(selectedType, yearRange);
-    this.teste(yearRange);
+    this.reorganizeSpeeches(yearRange);
     this.attVisibleDataset(categories);
   }
 

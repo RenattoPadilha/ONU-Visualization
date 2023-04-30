@@ -54,6 +54,8 @@ export class SpeechsControlServiceService {
       columnName = 'percSovereignty';
     } else if (selectedType == "HumanAssistPerc"){
       columnName = 'percHumanAssist';
+    } else if (selectedType == "SentimentPos"){
+      columnName = 'posshare';
     }
       
     if (isAscendingOrder){

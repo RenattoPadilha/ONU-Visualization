@@ -56,7 +56,7 @@ export class SelectedFiltersService {
   }
 
   inputValidation(selectedType: string, yearRange: Date[], selectedWords: any) : boolean{
-    let types = ["Sentiment","Meetings","Speeches","Words","Resolutions", "Sovereignty", "HumanAssist", "SovereigntyPerc", "HumanAssistPerc"];
+    let types = ["Sentiment","Meetings","Speeches","Words","Resolutions", "Sovereignty", "HumanAssist", "SovereigntyPerc", "HumanAssistPerc", "SentimentPos"];
     
     if (yearRange[0] >= new Date ("01/01/1992") || yearRange[1] < new Date ("01/01/2023")) {
       if (selectedType === "Occurrences" && selectedWords.length > 0)
