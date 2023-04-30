@@ -52,6 +52,8 @@ export class SpeechsControlServiceService {
       columnName = 'qtdHumanAssist';
     } else if (selectedType == "SovereigntyPerc"){
       columnName = 'percSovereignty';
+    } else if (selectedType == "HumanAssistPerc"){
+      columnName = 'percHumanAssist';
     }
       
     if (isAscendingOrder){

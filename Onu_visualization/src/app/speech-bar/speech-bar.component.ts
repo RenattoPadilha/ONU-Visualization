@@ -39,6 +39,10 @@ export class SpeechBarComponent implements OnInit {
         this.textPt1 = "Citations: ";
         this.columnName = 'percSovereignty';
         this.textPt2 = "%";
+      }else if(selectedType == 'HumanAssistPerc'){
+        this.textPt1 = "Citations: ";
+        this.columnName = 'percHumanAssist';
+        this.textPt2 = "%";
       }else { //meetings, speechs, words, resolutions
         this.textPt1 = "";
         this.columnName = '';

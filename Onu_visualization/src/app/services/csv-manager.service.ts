@@ -199,6 +199,9 @@ export class CsvManagerService {
     } else if (selectedType == "SovereigntyPerc"){
       columnName = 'percSovereignty';
       isPercentage = true;
+    } else if (selectedType == "HumanAssistPerc"){
+      columnName = 'percHumanAssist';
+      isPercentage = true;
     }
     //analysing category 
     this._filtredDataset.forEach((element:any) =>{
@@ -494,6 +497,8 @@ export class CsvManagerService {
       columnName = 'qtdHumanAssist';
     } else if (selectedType == "SovereigntyPerc"){
       columnName = 'percSovereignty';
+    } else if (selectedType == "HumanAssistPerc"){
+      columnName = 'percHumanAssist';
     }
  
     if (selectedType == "Occurrences"){
@@ -539,12 +544,11 @@ export class CsvManagerService {
       });
     }
 
-    if (selectedType == "Sovereignty" || selectedType == "HumanAssist" || selectedType == "Occurrences" || selectedType == "SovereigntyPerc"){
+    if (columnName != ""){
       this._filtredSpeechsDataset = this._filtredSpeechsDataset.filter((element: any) => {
         return element[columnName] > 0;
       });
     }
-
     this.reorganizeArray(selectedType, yearRange);
     this.teste(yearRange);
     this.attVisibleDataset(categories);
