@@ -136,7 +136,6 @@ export class DrawHeatmapService {
           this._categoryWidth / 2,
           this._lineHeight * index + (this._lineHeight * 1) / 2
         );
-        console.log(categoryTitle.length)
       } else {
         this._ctx.textBaseline = 'middle';
         this._ctx.fillText(
@@ -145,16 +144,6 @@ export class DrawHeatmapService {
           this._lineHeight * index + (this._lineHeight * 1) / 2
         );
       }
-
-      /*
-      this._ctx.font =
-        '400 1rem "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif';
-      this._ctx.fillText(
-        text,
-        this._categoryWidth / 2,
-        this._lineHeight * index + (this._lineHeight * 3) / 4
-      );
-      */
     }
   }
 
@@ -332,7 +321,6 @@ export class DrawHeatmapService {
       this._yearWidth =
         (canvasWidth * 80) / 100 / (+yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1);
 
-      console.log('lineHeight: ' + this._lineHeight);
       this.drawCategory(actualCategories);
       this.drawTimeline(yearRange);
       this.drawHeatmap(dataset);

@@ -47,7 +47,11 @@ export class SpeechBarComponent implements OnInit {
         this.textPt1 = "Sentiment: ";
         this.columnName = 'posshare';
         this.textPt2 = "%";
-      }else { //meetings, speechs, words, resolutions
+      } else if (selectedType == "SentimentNeg"){
+        this.textPt1 = "Sentiment: ";
+        this.columnName = 'negshare';
+        this.textPt2 = "%";
+      } else { //meetings, speechs, words, resolutions
         this.textPt1 = "";
         this.columnName = '';
         this.textPt2 = "";

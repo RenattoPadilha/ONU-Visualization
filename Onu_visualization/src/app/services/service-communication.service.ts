@@ -48,6 +48,7 @@ export class ServiceCommunicationService {
         let selectedType = this.SelectedFiltersService.selectedType;
         let newValue = this.CsvManagerService.getCellValue(selectedIndexX,selectedIndexY);
 
+        let descriptor = "Value: ";
         let unit = "";
         if (selectedType == "Occurrences") {
           unit = " occurrences";
@@ -63,12 +64,23 @@ export class ServiceCommunicationService {
           unit = " citations";
         } else if (selectedType == "HumanAssist"){
           unit = " citations";
-        } else if (selectedType == "SovereigntyPerc" || selectedType == "HumanAssistPerc" || selectedType == "SentimentPos"){
+        } else if (selectedType == "SovereigntyPerc"){
+          descriptor = "Citations: ";
           unit = "%";
-        }
+        } else if (selectedType == "HumanAssistPerc"){
+          descriptor = "Citations: ";
+          unit = "%";
+        } else if (selectedType == "SentimentPos"){
+          descriptor = "Positivity: ";
+          unit = "%";
+        } else if (selectedType == "SentimentNeg"){
+          descriptor = "Negativity: ";
+          unit = "%";
+        } 
 
         return {
           tooltipOn: true,
+          init: descriptor,
           value: newValue,
           unit: unit
         }

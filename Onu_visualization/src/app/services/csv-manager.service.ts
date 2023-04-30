@@ -203,6 +203,9 @@ export class CsvManagerService {
     } else if (selectedType == "SentimentPos"){
       columnName = 'posshare';
       isPercentage = true;
+    } else if (selectedType == "SentimentNeg"){
+      columnName = 'negshare';
+      isPercentage = true;
     }
 
     //analysing category 
@@ -455,10 +458,6 @@ export class CsvManagerService {
     d3.dsv(";", '../assets/Database/unsc_2022_beta.csv').then(
       (data:any) => {
         this._originalDataset = data.map(this.rowRemover);
-        /*
-        console.log(data[0]);
-        console.log(this._originalDataset[0]);
-        */
       }
     );
     
@@ -502,6 +501,8 @@ export class CsvManagerService {
       columnName = 'percHumanAssist';
     } else if (selectedType == "SentimentPos"){
       columnName = 'posshare';
+    } else if (selectedType == "SentimentNeg"){
+      columnName = 'negshare';
     }
  
     if (selectedType == "Occurrences"){
@@ -541,7 +542,7 @@ export class CsvManagerService {
       this._filtredDataset = this._initFreqDataset.filter((element: any) => {
         return element.date >= initYear && element.date <= finalYear;
       });
-      console.log(this._filtredDataset);
+
       this._filtredSpeechsDataset = this._originalDataset.filter((element: any) => {
         return element.date >= initYear && element.date <= finalYear;
       });

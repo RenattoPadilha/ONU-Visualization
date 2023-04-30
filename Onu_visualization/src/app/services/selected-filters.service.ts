@@ -52,11 +52,10 @@ export class SelectedFiltersService {
     });
 
     this._selectedWords.push (['total', 0]);
-    console.log(this._selectedWords);
   }
 
   inputValidation(selectedType: string, yearRange: Date[], selectedWords: any) : boolean{
-    let types = ["Sentiment","Meetings","Speeches","Words","Resolutions", "Sovereignty", "HumanAssist", "SovereigntyPerc", "HumanAssistPerc", "SentimentPos"];
+    let types = ["Sentiment","Meetings","Speeches","Words","Resolutions", "Sovereignty", "HumanAssist", "SovereigntyPerc", "HumanAssistPerc", "SentimentPos", "SentimentNeg"];
     
     if (yearRange[0] >= new Date ("01/01/1992") || yearRange[1] < new Date ("01/01/2023")) {
       if (selectedType === "Occurrences" && selectedWords.length > 0)

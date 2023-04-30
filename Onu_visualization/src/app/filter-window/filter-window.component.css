@@ -11,6 +11,7 @@
   text-align: left;
   width: 20vw;
   height: 40vh;
+  z-index: 2;
 }
 
 .padding-menu{

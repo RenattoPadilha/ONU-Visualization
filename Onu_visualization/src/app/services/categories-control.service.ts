@@ -184,6 +184,5 @@ export class CategoriesControlService {
     //remover todas as subcategorias //add categoria macro novamente
     this._categories.splice(firstSubcattegorieActualIndex, qtdSubcattegories, category);
 
-    console.log(this._categories);
   }
 }

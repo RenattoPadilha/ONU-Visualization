@@ -49,7 +49,7 @@ export class HeatmapComponent implements OnInit {
       let prettyNumber = (hoverWindowInfo.value).toLocaleString('en-US');
       this.tooltipX = event.clientX + 'px';
       this.tooltipY = event.clientY + 'px';
-      this.value = prettyNumber + hoverWindowInfo.unit;
+      this.value = hoverWindowInfo.init + prettyNumber + hoverWindowInfo.unit;
       this.isTooltipOn = true;
     } else {
       this.isTooltipOn = false;

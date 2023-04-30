@@ -56,6 +56,8 @@ export class SpeechsControlServiceService {
       columnName = 'percHumanAssist';
     } else if (selectedType == "SentimentPos"){
       columnName = 'posshare';
+    } else if (selectedType == "SentimentNeg"){
+      columnName = 'negshare';
     }
       
     if (isAscendingOrder){
