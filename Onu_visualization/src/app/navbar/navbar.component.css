@@ -1,6 +1,6 @@
 .navbar-container{
   background-color: #5b92e5;
-  height: 8vh;
+  height: 6vh;
   width: 100vw;
   display: flex;
   text-align: center;
@@ -12,21 +12,22 @@
   color: white;
   margin: 0;
   width: 30vw;
-  margin-right: 5vw;
-  line-height: 8vh;
+  margin-right: 7vw;
+  line-height: 6vh;
   font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
+  font-size: 2.25rem;
 }
 
 .onu-img{
-  width: 8.5vw;
-  height: 8vh;
+  width: 6.5vw;
+  height: 6vh;
 }
 
 .scale-div{
   position: relative;
   width: 16.5vw;
-  height: 8vh;
+  height: 6vh;
 }
 
 .scale{
@@ -49,13 +50,13 @@ mat-radio-group::before mat-radio-group::after{
 
 .speech-sort-title{
   color: white;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
 }
 
 .speech-sort-button{
-  height: 8vh;
+  height: 6vh;
 }
 
 mat-expansion-panel{

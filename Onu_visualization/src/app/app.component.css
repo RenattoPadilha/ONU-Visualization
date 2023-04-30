@@ -1,10 +1,12 @@
 .grid-parent{
   display: grid;
   grid-template-columns: 4fr 1fr;
-  grid-template-rows: 1fr 11.5fr;
+  grid-template-rows: 6fr 92fr 2fr;
   grid-template-areas: 
   "navbar navbar"
-  "heatmap sidebar";
+  "heatmap sidebar"
+  "footer footer"
+  ;
   width: 100vw;
   height: 100vh;
 }
@@ -19,4 +21,18 @@
 
 .sidebar-div{
   grid-area: sidebar;
+}
+
+.footer-div{
+  grid-area: footer;
+  background-color: #5b92e5;
+}
+
+.footer-text{
+  font-size: 0.6rem;
+  margin: 0;
+  padding-right: 1vw;
+  font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: white;
+  text-align: right;
 }

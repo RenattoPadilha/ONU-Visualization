@@ -10,7 +10,7 @@ export class FilterButtonComponent implements OnInit {
   @Output() isFilterWindowOpen = new EventEmitter<boolean>();
   //div size
   width = '20vw';
-  height = '8vh';
+  height = '6vh';
   //icon position
   iconPosition = 'translateY(-50%) rotate(-180deg)';
   isWindowOpen = false;

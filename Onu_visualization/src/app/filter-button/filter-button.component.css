@@ -8,6 +8,7 @@
   left: 50%;
   -ms-transform: translateY(-50%) translateX(-50%);
   transform: translateY(-50%) translateX(-50%);
+  font-size: 1.75rem !important;
 }
 
 .bar-button:hover .bar-text {
@@ -22,7 +23,6 @@
   border: solid white;
   border-width: 0 0 0 2px;
   box-sizing: border-box;
-  font-size: 2rem;
 }
 
 .filter-button:hover {
