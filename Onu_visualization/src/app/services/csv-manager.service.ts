@@ -132,6 +132,12 @@ export class CsvManagerService {
   ];
   //!PROBLEMA COM NEGATIVE, POSITIVE, POSITIVE_SHARE E NEGATIVE SHARE
   private rowRemover(row: any) {
+
+    let newPosShare = parseFloat(row.positive_share.replace(/,/g, '.'));
+    let newNegShare = parseFloat(row.negative_share.replace(/,/g, '.'));
+    let newPecSover = parseFloat(row.sovereignty_share.replace(/,/g, '.'));
+    let newPecHuman = parseFloat(row.humanitarian_assistance_share.replace(/,/g, '.'));
+    
     return {
       id: row.speech_id,
       agenda: row.agenda_info, //agenda_info - UN Official Agenda
@@ -142,12 +148,12 @@ export class CsvManagerService {
       speaker: row.speaker, //name of representative
       url: row.url, //speech url on ONU website
       text: row.content, //transcribed text
-      posshare: +row.posshare,
-      negshare: +row.negshare,
+      posshare: newPosShare,
+      negshare: newNegShare,
       qtdSovereignty: +row.sovereignty,
-      percSovereignty: +row.sovereignty_share,
+      percSovereignty: newPecSover,
       qtdHumanAssist: +row.humanitarian_assistance,
-      percHumanAssist: +row.humanitarian_assistance_share,
+      percHumanAssist: newPecHuman,
     };
   } 
 
@@ -174,6 +180,7 @@ export class CsvManagerService {
     let qtdYears = +yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1;
     let reorganizedDatabase = [...Array(105)].map(e => {return [...Array(qtdYears)]});
     let columnName = "";
+    let isPercentage = false;
 
     if (selectedType == "Occurrences") {
       columnName = 'wordsCount';
@@ -189,8 +196,10 @@ export class CsvManagerService {
       columnName = 'qtdSovereignty';
     } else if (selectedType == "HumanAssist"){
       columnName = 'qtdHumanAssist';
+    } else if (selectedType == "SovereigntyPerc"){
+      columnName = 'percSovereignty';
+      isPercentage = true;
     }
-    
     //analysing category 
     this._filtredDataset.forEach((element:any) =>{
       let yearIndex = element.date.getFullYear() - yearRange[0].getFullYear();
@@ -314,6 +323,17 @@ export class CsvManagerService {
         }
       }
     });
+
+    if (isPercentage){
+      for (let index = 0; index < qtdYears; index++) {
+        reorganizedDatabase[0][index] =  +(reorganizedDatabase[0][index]/33).toFixed(2);
+        reorganizedDatabase[34][index] = +(reorganizedDatabase[34][index]/8).toFixed(2);
+        reorganizedDatabase[43][index] = +(reorganizedDatabase[43][index]/9).toFixed(2);
+        reorganizedDatabase[53][index] = +(reorganizedDatabase[53][index]/13).toFixed(2);
+        reorganizedDatabase[67][index] = +(reorganizedDatabase[67][index]/10).toFixed(2);
+        reorganizedDatabase[78][index] = +(reorganizedDatabase[78][index]/20).toFixed(2);        
+      }
+    }
     this._filtredDataset = reorganizedDatabase;
   }
 
@@ -472,8 +492,10 @@ export class CsvManagerService {
       columnName = 'qtdSovereignty';
     } else if (selectedType == "HumanAssist"){
       columnName = 'qtdHumanAssist';
+    } else if (selectedType == "SovereigntyPerc"){
+      columnName = 'percSovereignty';
     }
-
+ 
     if (selectedType == "Occurrences"){
     
     //Filter By Year
@@ -507,16 +529,17 @@ export class CsvManagerService {
 
     }  else{ //Speechs, Meetings
       //Filter By Year
+      
       this._filtredDataset = this._initFreqDataset.filter((element: any) => {
         return element.date >= initYear && element.date <= finalYear;
       });
-
+      console.log(this._filtredDataset);
       this._filtredSpeechsDataset = this._originalDataset.filter((element: any) => {
         return element.date >= initYear && element.date <= finalYear;
       });
     }
 
-    if (selectedType == "Sovereignty" || selectedType == "HumanAssist" || selectedType == "Occurrences"){
+    if (selectedType == "Sovereignty" || selectedType == "HumanAssist" || selectedType == "Occurrences" || selectedType == "SovereigntyPerc"){
       this._filtredSpeechsDataset = this._filtredSpeechsDataset.filter((element: any) => {
         return element[columnName] > 0;
       });
