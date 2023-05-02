@@ -50,10 +50,6 @@ export class SpeechsControlServiceService {
       columnName = 'qtdSovereignty';
     } else if (selectedType == "HumanAssist"){
       columnName = 'qtdHumanAssist';
-    } else if (selectedType == "SovereigntyPerc"){
-      columnName = 'percSovereignty';
-    } else if (selectedType == "HumanAssistPerc"){
-      columnName = 'percHumanAssist';
     } else if (selectedType == "SentimentPos"){
       columnName = 'posshare';
     } else if (selectedType == "SentimentNeg"){

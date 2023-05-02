@@ -134,8 +134,6 @@ export class CsvManagerService {
 
     let newPosShare = parseFloat(row.positive_share.replace(/,/g, '.'));
     let newNegShare = parseFloat(row.negative_share.replace(/,/g, '.'));
-    let newPecSover = parseFloat(row.sovereignty_share.replace(/,/g, '.'));
-    let newPecHuman = parseFloat(row.humanitarian_assistance_share.replace(/,/g, '.'));
     
     return {
       id: row.speech_id,
@@ -150,9 +148,7 @@ export class CsvManagerService {
       posshare: newPosShare,
       negshare: newNegShare,
       qtdSovereignty: +row.sovereignty,
-      percSovereignty: newPecSover,
       qtdHumanAssist: +row.humanitarian_assistance,
-      percHumanAssist: newPecHuman,
     };
   } 
 
@@ -194,12 +190,6 @@ export class CsvManagerService {
       columnName = 'qtdSovereignty';
     } else if (selectedType == "HumanAssist"){
       columnName = 'qtdHumanAssist';
-    } else if (selectedType == "SovereigntyPerc"){
-      columnName = 'percSovereignty';
-      isPercentage = true;
-    } else if (selectedType == "HumanAssistPerc"){
-      columnName = 'percHumanAssist';
-      isPercentage = true;
     } else if (selectedType == "SentimentPos"){
       columnName = 'posshare';
       isPercentage = true;
@@ -495,10 +485,6 @@ export class CsvManagerService {
       columnName = 'qtdSovereignty';
     } else if (selectedType == "HumanAssist"){
       columnName = 'qtdHumanAssist';
-    } else if (selectedType == "SovereigntyPerc"){
-      columnName = 'percSovereignty';
-    } else if (selectedType == "HumanAssistPerc"){
-      columnName = 'percHumanAssist';
     } else if (selectedType == "SentimentPos"){
       columnName = 'posshare';
     } else if (selectedType == "SentimentNeg"){

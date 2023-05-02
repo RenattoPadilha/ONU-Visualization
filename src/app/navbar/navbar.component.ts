@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.SelectedFiltersService.currentMessage.subscribe((selectedType) => {
-      let types = ["Occurrences", "Sovereignty", "HumanAssist", "SovereigntyPerc", "HumanAssistPerc", "SentimentPos", "SentimentNeg"];
+      let types = ["Occurrences", "Sovereignty", "HumanAssist", "SentimentPos", "SentimentNeg"];
       if (types.findIndex((element: any) => element === selectedType) != -1) {
         this.quantitySortOn = true;
       } else {
