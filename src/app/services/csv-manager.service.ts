@@ -130,11 +130,7 @@ export class CsvManagerService {
     'Threats To International Peace And Security',
     'Women And Peace And Security',
   ];
-  private rowRemover(row: any) {
-
-    let newPosShare = parseFloat(row.positive_share.replace(/,/g, '.'));
-    let newNegShare = parseFloat(row.negative_share.replace(/,/g, '.'));
-    
+  private rowRemover(row: any) {    
     return {
       id: row.speech_id,
       agenda: row.agenda_info, //agenda_info - UN Official Agenda
@@ -145,8 +141,8 @@ export class CsvManagerService {
       speaker: row.speaker, //name of representative
       url: row.url, //speech url on ONU website
       text: row.content, //transcribed text
-      posshare: newPosShare,
-      negshare: newNegShare,
+      qtdPosWords: +row.positive,
+      qtdNegWords: +row.negative,
       qtdSovereignty: +row.sovereignty,
       qtdHumanAssist: +row.humanitarian_assistance,
     };
@@ -161,8 +157,6 @@ export class CsvManagerService {
       qtdSpeeches: +row.speeches,
       qtdWords: +row.words,
       qtdResolutions: +row.resolutions,
-      posshare: +row.posshare,
-      negshare: +row.negshare,
       qtdSovereignty: +row.sovereignty,
       percSovereignty: +row.sovereignty_perc,
       qtdHumanAssist: +row.humanitarian_assistance,
@@ -174,7 +168,6 @@ export class CsvManagerService {
     let qtdYears = +yearRange[1].getFullYear() - (+yearRange[0].getFullYear()) + 1;
     let reorganizedDatabase = [...Array(105)].map(e => {return [...Array(qtdYears)]});
     let columnName = "";
-    let isPercentage = false;
 
     if (selectedType == "Occurrences") {
       columnName = 'wordsCount';
@@ -191,11 +184,9 @@ export class CsvManagerService {
     } else if (selectedType == "HumanAssist"){
       columnName = 'qtdHumanAssist';
     } else if (selectedType == "SentimentPos"){
-      columnName = 'posshare';
-      isPercentage = true;
+      columnName = 'qtdPosWords';
     } else if (selectedType == "SentimentNeg"){
-      columnName = 'negshare';
-      isPercentage = true;
+      columnName = 'qtdNegWords';
     }
 
     //analysing category 
@@ -322,16 +313,6 @@ export class CsvManagerService {
       }
     });
 
-    if (isPercentage){
-      for (let index = 0; index < qtdYears; index++) {
-        reorganizedDatabase[0][index] =  +(reorganizedDatabase[0][index]/33).toFixed(2);
-        reorganizedDatabase[34][index] = +(reorganizedDatabase[34][index]/8).toFixed(2);
-        reorganizedDatabase[43][index] = +(reorganizedDatabase[43][index]/9).toFixed(2);
-        reorganizedDatabase[53][index] = +(reorganizedDatabase[53][index]/13).toFixed(2);
-        reorganizedDatabase[67][index] = +(reorganizedDatabase[67][index]/10).toFixed(2);
-        reorganizedDatabase[78][index] = +(reorganizedDatabase[78][index]/20).toFixed(2);        
-      }
-    }
     this._filtredDataset = reorganizedDatabase;
   }
 
@@ -486,9 +467,9 @@ export class CsvManagerService {
     } else if (selectedType == "HumanAssist"){
       columnName = 'qtdHumanAssist';
     } else if (selectedType == "SentimentPos"){
-      columnName = 'posshare';
+      columnName = 'qtdPosWords';
     } else if (selectedType == "SentimentNeg"){
-      columnName = 'negshare';
+      columnName = 'qtdNegWords';
     }
  
     if (selectedType == "Occurrences"){
@@ -522,7 +503,14 @@ export class CsvManagerService {
 
     this._filtredSpeechsDataset = [...this._filtredDataset];
 
-    }  else{ //Speechs, Meetings
+    } else if (selectedType == "SentimentPos" || selectedType == "SentimentNeg"){
+      this._filtredDataset = this._originalDataset.filter((element: any) => {
+        return element.date >= initYear && element.date <= finalYear;
+      });
+      
+      this._filtredSpeechsDataset = [...this._filtredDataset];
+
+    } else{ //Speechs, Meetings
       //Filter By Year
       
       this._filtredDataset = this._initFreqDataset.filter((element: any) => {

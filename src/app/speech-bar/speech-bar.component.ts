@@ -36,13 +36,13 @@ export class SpeechBarComponent implements OnInit {
         this.columnName = 'qtdHumanAssist';
         this.textPt2 = " times";
       } else if (selectedType == "SentimentPos"){
-        this.textPt1 = "Sentiment: ";
-        this.columnName = 'posshare';
-        this.textPt2 = "%";
+        this.textPt1 = "Quantity: ";
+        this.columnName = 'qtdPosWords';
+        this.textPt2 = " positive words";
       } else if (selectedType == "SentimentNeg"){
         this.textPt1 = "Sentiment: ";
-        this.columnName = 'negshare';
-        this.textPt2 = "%";
+        this.columnName = 'qtdNegWords';
+        this.textPt2 = " negative words";
       } else { //meetings, speechs, words, resolutions
         this.textPt1 = "";
         this.columnName = '';

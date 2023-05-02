@@ -51,9 +51,9 @@ export class SpeechsControlServiceService {
     } else if (selectedType == "HumanAssist"){
       columnName = 'qtdHumanAssist';
     } else if (selectedType == "SentimentPos"){
-      columnName = 'posshare';
+      columnName = 'qtdPosWords';
     } else if (selectedType == "SentimentNeg"){
-      columnName = 'negshare';
+      columnName = 'qtdNegWords';
     }
       
     if (isAscendingOrder){

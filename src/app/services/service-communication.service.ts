@@ -65,11 +65,9 @@ export class ServiceCommunicationService {
         } else if (selectedType == "HumanAssist"){
           unit = " citations";
         } else if (selectedType == "SentimentPos"){
-          descriptor = "Positivity: ";
-          unit = "%";
+          unit = " positive words";
         } else if (selectedType == "SentimentNeg"){
-          descriptor = "Negativity: ";
-          unit = "%";
+          unit = " negative words";
         } 
 
         return {
