@@ -55,12 +55,12 @@ export class ServiceCommunicationService {
         } else if (selectedType == "Meetings"){
           unit = " meetings";
         } else if (selectedType == "Speeches"){
-          unit = " speeches";
+          unit = " speechs";
         } else if (selectedType == "Words"){
           unit = " words";
         } else if (selectedType == "Resolutions"){
           unit = " resolutions";
-        } else if(selectedType == "Sovereignty"){
+        } else if (selectedType == "Sovereignty"){
           unit = " citations";
         } else if (selectedType == "HumanAssist"){
           unit = " citations";
